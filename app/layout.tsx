@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ConfigureAmplify from "@/components/ConfigureAmplify";
+import { AuthProvider } from "@/components/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -16,9 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-gradient-to-br from-brand-cream to-brand-warm text-brand-text min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <ConfigureAmplify />
+        <AuthProvider>
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
