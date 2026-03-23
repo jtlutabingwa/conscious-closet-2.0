@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 const brands = [
-  { name: "Patagonia", desc: "Outdoor gear with environmental activism", url: "https://www.patagonia.com/" },
-  { name: "Koru Eco Brand", desc: "Living in harmony with nature!", url: "https://koruecobrand.com/" },
-  { name: "Mi Terro", desc: "Enrich The Power of Biomass Waste To End Microplastics!", url: "https://www.miterro.com/" },
-  { name: "Kotn Clothing", desc: "Focus on the finest natural fibres", url: "https://kotn.com/" },
-  { name: "Reformation", desc: "Being naked is the #1 most sustainable option. We're #2.", url: "https://www.thereformation.com/" },
+  { name: "Patagonia", desc: "Outdoor gear with environmental activism", url: "https://www.patagonia.com/", img: "/images/patagonia.png" },
+  { name: "Koru Eco Brand", desc: "Living in harmony with nature!", url: "https://koruecobrand.com/", img: "/images/koruecobrand.jpg" },
+  { name: "Mi Terro", desc: "Enrich The Power of Biomass Waste To End Microplastics!", url: "https://www.miterro.com/", img: "/images/mi-terro.png" },
+  { name: "Kotn Clothing", desc: "Focus on the finest natural fibres", url: "https://kotn.com/", img: "/images/kotn.png" },
+  { name: "Reformation", desc: "Being naked is the #1 most sustainable option. We're #2.", url: "https://www.thereformation.com/", img: "/images/reformation_logo.jpg" },
 ];
 
 export default function Brands() {
@@ -36,10 +37,20 @@ export default function Brands() {
               href={brand.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-gray-100 rounded-lg p-5 text-center font-bold text-brand-darkest hover:bg-accent-green-light hover:-translate-y-1 transition-all shadow-sm hover:shadow-md"
+              className="block bg-gray-100 rounded-lg overflow-hidden text-center font-bold text-brand-darkest hover:bg-accent-green-light hover:-translate-y-1 transition-all shadow-sm hover:shadow-md"
             >
-              <div className="text-lg mb-2">{brand.name}</div>
-              <div className="text-sm font-normal text-gray-600">{brand.desc}</div>
+              <div className="relative h-40">
+                <Image
+                  src={brand.img}
+                  alt={brand.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-4">
+                <div className="text-lg mb-1">{brand.name}</div>
+                <div className="text-sm font-normal text-gray-600">{brand.desc}</div>
+              </div>
             </a>
           ))}
         </div>

@@ -1,7 +1,18 @@
+import Image from "next/image";
+ 
 export default function Founder() {
   return (
     <div className="max-w-3xl mx-auto mt-10 mb-10 bg-brand-linen rounded-xl p-8 shadow-md">
       <div className="flex flex-wrap justify-center items-center gap-8">
+        <div className="w-72 h-auto rounded-xl overflow-hidden shadow-md">
+          <Image
+            src="/images/holly.JPG"
+            alt="Photo of Holly Needham, Founder"
+            width={300}
+            height={400}
+            className="w-full h-auto object-cover rounded-xl"
+          />
+        </div>
         <div className="max-w-md text-left">
           <h2 className="text-2xl font-bold text-brand-brown mb-3">Holly Needham</h2>
           <p className="text-lg leading-relaxed mb-4">

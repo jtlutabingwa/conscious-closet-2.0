@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 const outfits = [
-  { alt: "Recycled denim jacket", caption: "Recycled denim jacket with organic cotton tee" },
-  { alt: "Hemp dress", caption: "Elegant hemp dress" },
-  { alt: "Bamboo shirt", caption: "Soft bamboo fiber shirt" },
-  { alt: "Upcycled jeans", caption: "Upcycled jeans transformed into patchwork fashion" },
-  { alt: "Recycled bag", caption: "2 tone recycled promotional bag in cotton and recycled polyester" },
+  { src: "/images/denim-jacket.jpg", alt: "Recycled denim jacket", caption: "Recycled denim jacket with organic cotton tee" },
+  { src: "/images/hemp-dress.png", alt: "Hemp dress", caption: "Elegant hemp dress" },
+  { src: "/images/bamboo-shirt.jpg", alt: "Bamboo shirt", caption: "Soft bamboo fiber shirt" },
+  { src: "/images/upcycled-jeans.png", alt: "Upcycled jeans", caption: "Upcycled jeans transformed into patchwork fashion" },
+  { src: "/images/bag.png", alt: "Recycled bag", caption: "2 tone recycled promotional bag in cotton and recycled polyester" },
 ];
 
 export default function Gallery() {
@@ -32,8 +33,13 @@ export default function Gallery() {
             key={outfit.alt}
             className="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:scale-105 transition-transform cursor-pointer"
           >
-            <div className="h-64 bg-brand-warm flex items-center justify-center text-brand-brown text-sm">
-              [Image: {outfit.alt}]
+            <div className="relative h-64">
+              <Image
+                src={outfit.src}
+                alt={outfit.alt}
+                fill
+                className="object-cover"
+              />
             </div>
             <div className="p-3 text-center text-sm text-gray-700">{outfit.caption}</div>
           </div>
