@@ -1,65 +1,72 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <section className="bg-accent-greenLight py-10 px-5 text-center rounded-lg mx-4 mt-6 mb-8">
+        <h2 className="text-2xl font-bold mb-4 text-brand-text">
+          Welcome to The Conscious Closet
+        </h2>
+        <p className="max-w-2xl mx-auto mb-6">
+          Empowering you to make eco-conscious fashion choices. Discover how you
+          can support ethical brands, reduce waste, and become a force for good
+          in fashion.
+        </p>
+        <Link
+          href="/take-action"
+          className="inline-block bg-accent-green text-white font-bold py-2 px-6 rounded hover:bg-accent-greenDark transition-colors"
+        >
+          Get Involved
+        </Link>
+      </section>
+
+      <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mb-6 text-center">
+        <h3 className="text-xl font-bold mb-4">How It Works</h3>
+        <ol className="max-w-xl mx-auto space-y-3">
+          <li>
+            <strong>Learn:</strong> Browse our info pages and gallery to
+            understand the impact of fast fashion.
+          </li>
+          <li>
+            <strong>Act:</strong> Take simple steps like donating, swapping, or
+            buying second-hand.
+          </li>
+          <li>
+            <strong>Inspire:</strong> Submit your ideas and spread awareness in
+            your community.
+          </li>
+        </ol>
+      </section>
+
+      <section className="mx-4 mb-6 p-6">
+        <h3 className="text-xl font-bold mb-4 text-center">
+          What Our Community Says
+        </h3>
+        <blockquote className="italic border-l-4 border-accent-green pl-5 text-gray-600 max-w-2xl mx-auto mb-4">
+          &ldquo;The Conscious Closet helped me rethink my wardrobe and connect
+          with local swap events. I feel empowered!&rdquo; &ndash;{" "}
+          <em>Ava G.</em>
+        </blockquote>
+        <blockquote className="italic border-l-4 border-accent-green pl-5 text-gray-600 max-w-2xl mx-auto">
+          &ldquo;A great place to start your sustainable fashion journey.
+          It&apos;s easy, friendly, and full of helpful tips.&rdquo; &ndash;{" "}
+          <em>Marcus T.</em>
+        </blockquote>
+      </section>
+
+      <section className="bg-accent-greenPale p-6 mx-4 mb-6 text-center rounded-lg">
+        <h3 className="text-xl font-bold mb-2">Ready to Make a Change?</h3>
+        <p className="mb-4">
+          Join our growing community of changemakers. Start today by exploring
+          how your fashion habits can help the planet.
+        </p>
+        <Link
+          href="/submit"
+          className="inline-block bg-accent-green text-white font-bold py-2 px-6 rounded hover:bg-accent-greenDark transition-colors"
+        >
+          Share Your Idea
+        </Link>
+      </section>
+    </>
   );
 }
