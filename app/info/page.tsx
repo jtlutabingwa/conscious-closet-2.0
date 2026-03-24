@@ -16,6 +16,39 @@ export default function Info() {
         <div className="section-divider mt-6" />
       </section>
 
+      {/* Inspired By */}
+      <section className="px-6 pb-16 max-w-4xl mx-auto">
+        <div className="bg-gradient-to-br from-accent-green-pale to-brand-linen rounded-2xl p-8 md:p-10 border border-accent-green/10">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="shrink-0 text-center">
+              <div className="w-20 h-20 rounded-2xl bg-accent-green/10 flex items-center justify-center mx-auto mb-3">
+                <span className="font-display text-3xl">📖</span>
+              </div>
+              <p className="text-xs text-accent-green font-semibold uppercase tracking-widest">Inspired By</p>
+            </div>
+            <div>
+              <h3 className="font-display text-2xl font-bold text-brand-darkest mb-3">
+                <em>The Conscious Closet</em> by Elizabeth L. Cline
+              </h3>
+              <p className="text-brand-text/70 leading-relaxed mb-4">
+                This platform was inspired by Elizabeth L. Cline&apos;s groundbreaking book <em>The Conscious Closet: The Revolutionary Guide to Looking Good While Doing Good</em>, which opened our eyes to the true impact of fast fashion and showed us that building a sustainable wardrobe is both achievable and rewarding. Her work has been a guiding light for our mission to educate and empower.
+              </p>
+              <p className="text-brand-text/70 leading-relaxed mb-4">
+                We encourage everyone interested in sustainable fashion to read Elizabeth&apos;s book — it&apos;s the definitive guide to making mindful clothing choices and understanding the fashion industry&apos;s impact on people and the planet.
+              </p>
+              <a
+                href="https://www.elizabethlcline.com/the-conscious-closet"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-accent-green font-semibold text-sm hover:underline"
+              >
+                Learn more about the book →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What is sustainable fashion */}
       <section className="px-6 pb-16 max-w-5xl mx-auto">
         <div className="modern-card p-8 md:p-12">
@@ -117,6 +150,10 @@ export default function Info() {
           <div>
             <h3 className="font-display text-2xl font-bold text-brand-darkest mb-6">Resources</h3>
             <div className="space-y-3">
+              <a href="https://www.elizabethlcline.com/the-conscious-closet" target="_blank" rel="noopener noreferrer" className="block modern-card p-5 hover:border-accent-green/20 group">
+                <p className="font-semibold group-hover:text-accent-green transition-colors">The Conscious Closet (Book)</p>
+                <p className="text-sm text-brand-text/50">By Elizabeth L. Cline — the book that inspired this platform</p>
+              </a>
               <a href="https://www.fashionrevolution.org/" target="_blank" rel="noopener noreferrer" className="block modern-card p-5 hover:border-accent-green/20 group">
                 <p className="font-semibold group-hover:text-accent-green transition-colors">Fashion Revolution</p>
                 <p className="text-sm text-brand-text/50">Global movement for transparency in fashion</p>
