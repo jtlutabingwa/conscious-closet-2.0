@@ -38,6 +38,14 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Disclaimer */}
+        <div className="border-t border-white/10 pt-8 mb-8">
+          <p className="text-xs text-brand-cream/30 leading-relaxed max-w-4xl mx-auto text-center">
+            <strong className="text-brand-cream/40">Disclaimer:</strong> The Conscious Closet is an educational and informational platform dedicated to promoting sustainable fashion awareness. We do not sell products or services. All brand names, logos, and trademarks featured on this site belong to their respective owners. We are not affiliated with, sponsored by, or endorsed by any of the brands listed. Brands are featured solely for educational purposes to help users discover sustainable fashion options. All images used are for educational and non-commercial purposes. If you are a brand owner and would like your listing updated or removed, please{" "}
+            <Link href="/submit" className="text-brand-cream/50 underline hover:text-brand-cream/70 transition-colors">contact us</Link>.
+          </p>
+        </div>
+
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-brand-cream/30">
             © 2025 The Conscious Closet | Designed by Lutabingwa Group

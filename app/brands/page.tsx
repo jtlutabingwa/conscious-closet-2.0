@@ -45,13 +45,13 @@ export default function Brands() {
       {/* Brand Grid */}
       <section className="px-6 pb-16 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((brand, i) => (
+          {filtered.map((brand) => (
             <a
               key={brand.name}
               href={brand.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`modern-card group animate-fade-up delay-${(i + 1) * 100}`}
+              className="modern-card group"
             >
               <div className="relative h-48 overflow-hidden">
                 <Image
@@ -81,6 +81,15 @@ export default function Brands() {
         {filtered.length === 0 && (
           <p className="text-center text-brand-text/40 py-12">No brands found matching your search.</p>
         )}
+      </section>
+
+      {/* Trademark Notice */}
+      <section className="px-6 pb-8 max-w-4xl mx-auto">
+        <div className="bg-brand-linen/50 rounded-xl p-6 border border-brand-brown/5">
+          <p className="text-xs text-brand-text/40 leading-relaxed text-center">
+            All brand names, logos, and trademarks displayed on this page are the property of their respective owners. The Conscious Closet is not affiliated with, sponsored by, or endorsed by any of the brands listed above. Brands are featured for educational purposes only to help users discover sustainable fashion options. Brand descriptions are written by The Conscious Closet team and may not reflect official brand messaging.
+          </p>
+        </div>
       </section>
 
       {/* CTA */}
