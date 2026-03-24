@@ -14,55 +14,70 @@ export default function Profile() {
   }, [loading, user, router]);
 
   if (loading) {
-    return <div className="text-center mt-10 text-lg">Loading...</div>;
+    return <div className="text-center mt-20 font-display text-lg text-brand-text/40">Loading...</div>;
   }
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 mb-10">
-      <section className="bg-brand-linen rounded-xl p-8 shadow-md mb-6">
-        <h2 className="text-2xl font-bold text-brand-brown mb-6 text-center">Your Profile</h2>
+    <>
+      <section className="px-6 pt-16 pb-8 text-center">
+        <p className="animate-fade-up text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Your Space</p>
+        <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl font-bold text-brand-darkest mb-4">
+          Your Profile
+        </h2>
+        <div className="section-divider mt-4" />
+      </section>
 
-        <div className="space-y-4">
-          <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-            <span className="font-bold text-gray-600">Name</span>
-            <span>{userAttributes.name || "Not set"}</span>
-          </div>
-          <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-            <span className="font-bold text-gray-600">Email</span>
-            <span>{userAttributes.email || "Not set"}</span>
-          </div>
-          <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-            <span className="font-bold text-gray-600">User ID</span>
-            <span className="text-sm text-gray-500">{userAttributes.sub || "N/A"}</span>
+      <section className="px-6 pb-20 max-w-2xl mx-auto space-y-6">
+        {/* Profile Info */}
+        <div className="modern-card p-8 animate-fade-up delay-200">
+          <h3 className="font-display text-xl font-bold text-brand-brown mb-6">Account Details</h3>
+          <div className="space-y-5">
+            <div className="flex justify-between items-center pb-4 border-b border-brand-brown/5">
+              <span className="text-sm font-semibold text-brand-text/50 uppercase tracking-wider">Name</span>
+              <span className="font-medium">{userAttributes.name || "Not set"}</span>
+            </div>
+            <div className="flex justify-between items-center pb-4 border-b border-brand-brown/5">
+              <span className="text-sm font-semibold text-brand-text/50 uppercase tracking-wider">Email</span>
+              <span className="font-medium">{userAttributes.email || "Not set"}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-semibold text-brand-text/50 uppercase tracking-wider">User ID</span>
+              <span className="text-xs text-brand-text/30 font-mono">{userAttributes.sub || "N/A"}</span>
+            </div>
           </div>
         </div>
-      </section>
 
-      <section className="bg-brand-linen rounded-xl p-8 shadow-md mb-6">
-        <h3 className="text-xl font-bold text-brand-brown mb-4">Your Submissions</h3>
-        <p className="text-gray-600 text-sm">Your submitted ideas will appear here once we connect this to the API.</p>
-      </section>
+        {/* Submissions */}
+        <div className="modern-card p-8 animate-fade-up delay-300">
+          <h3 className="font-display text-xl font-bold text-brand-brown mb-4">Your Submissions</h3>
+          <div className="bg-brand-cream/50 rounded-xl p-6 text-center">
+            <p className="text-sm text-brand-text/40">Your submitted ideas will appear here once connected to the API.</p>
+          </div>
+        </div>
 
-      <section className="bg-brand-linen rounded-xl p-8 shadow-md mb-6">
-        <h3 className="text-xl font-bold text-brand-brown mb-4">Saved Brands</h3>
-        <p className="text-gray-600 text-sm">Your favorite sustainable brands will appear here.</p>
-      </section>
+        {/* Saved Brands */}
+        <div className="modern-card p-8 animate-fade-up delay-400">
+          <h3 className="font-display text-xl font-bold text-brand-brown mb-4">Saved Brands</h3>
+          <div className="bg-brand-cream/50 rounded-xl p-6 text-center">
+            <p className="text-sm text-brand-text/40">Your favorite sustainable brands will appear here.</p>
+          </div>
+        </div>
 
-      <div className="text-center">
-        <button
-          onClick={async () => {
-            await handleSignOut();
-            router.push("/");
-          }}
-          className="bg-brand-dark text-brand-cream font-bold py-2 px-6 rounded hover:bg-brand-darkest transition-colors"
-        >
-          Sign Out
-        </button>
-      </div>
-    </div>
+        {/* Sign Out */}
+        <div className="text-center animate-fade-up delay-500">
+          <button
+            onClick={async () => {
+              await handleSignOut();
+              router.push("/");
+            }}
+            className="inline-flex items-center gap-2 bg-brand-dark text-brand-cream font-semibold px-8 py-3 rounded-xl hover:bg-brand-darkest transition-all hover:-translate-y-0.5"
+          >
+            Sign Out
+          </button>
+        </div>
+      </section>
+    </>
   );
 }

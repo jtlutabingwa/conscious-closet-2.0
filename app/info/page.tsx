@@ -1,74 +1,146 @@
+import Link from "next/link";
 import Image from "next/image";
 
 export default function Info() {
   return (
     <>
-      <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mt-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">What is Sustainable Fashion?</h2>
-        <p className="max-w-3xl mx-auto text-center mb-6">
-          Sustainable fashion refers to clothing that is designed, manufactured, distributed, and used
-          in environmentally and socially responsible ways. It reduces pollution, conserves resources,
-          and promotes ethical labor practices. Opting for eco-conscious materials and upcycling garments
-          helps cut down the fashion industry&apos;s carbon footprint.
+      {/* Hero */}
+      <section className="px-6 pt-16 pb-12 text-center">
+        <p className="animate-fade-up text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Knowledge is Power</p>
+        <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-5xl font-bold text-brand-darkest mb-4">
+          Sustainability Info
+        </h2>
+        <p className="animate-fade-up delay-200 text-brand-text/60 max-w-2xl mx-auto leading-relaxed">
+          Understanding sustainable fashion is the first step to making a difference. Learn about materials, practices, and the lifecycle of conscious clothing.
         </p>
-        <div className="flex flex-wrap justify-center gap-5">
-          <Image src="/images/sub_pic1.png" alt="Sustainable cycle" width={300} height={200} className="rounded-lg shadow-md hover:scale-105 transition-transform" />
-          <Image src="/images/recycled-clothing-process.jpg" alt="Recycled clothing process" width={300} height={200} className="rounded-lg shadow-md hover:scale-105 transition-transform" />
-          <Image src="/images/ethical-production.webp" alt="Ethical production" width={300} height={200} className="rounded-lg shadow-md hover:scale-105 transition-transform" />
+        <div className="section-divider mt-6" />
+      </section>
+
+      {/* What is sustainable fashion */}
+      <section className="px-6 pb-16 max-w-5xl mx-auto">
+        <div className="modern-card p-8 md:p-12">
+          <h3 className="font-display text-2xl font-bold text-brand-darkest mb-4">What is Sustainable Fashion?</h3>
+          <p className="text-brand-text/70 leading-relaxed mb-8">
+            Sustainable fashion refers to clothing that is designed, manufactured, distributed, and used in environmentally and socially responsible ways. It reduces pollution, conserves resources, and promotes ethical labor practices. By opting for eco-conscious materials and upcycling garments, we can significantly cut down the fashion industry&apos;s carbon footprint.
+          </p>
+          <div className="flex flex-wrap justify-center gap-5">
+            <Image src="/images/sub_pic1.png" alt="Sustainable cycle" width={300} height={200} className="rounded-xl shadow-md hover:scale-105 transition-transform duration-500" />
+            <Image src="/images/recycled-clothing-process.jpg" alt="Recycled clothing process" width={300} height={200} className="rounded-xl shadow-md hover:scale-105 transition-transform duration-500" />
+            <Image src="/images/ethical-production.webp" alt="Ethical production" width={300} height={200} className="rounded-xl shadow-md hover:scale-105 transition-transform duration-500" />
+          </div>
         </div>
       </section>
 
-      <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mb-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Core Pillars of Sustainability</h2>
-        <ul className="max-w-2xl mx-auto space-y-2 list-disc list-inside">
-          <li><strong>Environmental:</strong> Reducing pollution, waste, and resource consumption</li>
-          <li><strong>Social:</strong> Supporting fair wages, safe working conditions, and labor rights</li>
-          <li><strong>Economic:</strong> Creating long-lasting, quality garments that save money and reduce waste over time</li>
-        </ul>
-      </section>
-
-      <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mb-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Common Sustainable Fabrics</h2>
-        <ul className="max-w-md mx-auto space-y-1 list-disc list-inside mb-6">
-          <li>Organic cotton</li>
-          <li>Bamboo</li>
-          <li>Tencel (Lyocell)</li>
-          <li>Recycled polyester</li>
-          <li>Hemp</li>
-        </ul>
-        <div className="flex flex-wrap justify-center gap-5">
-          <Image src="/images/sustainable-clothing-materials.png" alt="Sustainable materials" width={300} height={200} className="rounded-lg shadow-md hover:scale-105 transition-transform" />
-          <Image src="/images/types.jpg" alt="Types of sustainable fabrics" width={300} height={200} className="rounded-lg shadow-md hover:scale-105 transition-transform" />
-          <Image src="/images/textile-impact.png" alt="Textile impact" width={300} height={200} className="rounded-lg shadow-md hover:scale-105 transition-transform" />
+      {/* Core Pillars */}
+      <section className="px-6 py-16 bg-brand-linen/50">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Foundation</p>
+            <h3 className="font-display text-3xl font-bold text-brand-darkest">Core Pillars of Sustainability</h3>
+            <div className="section-divider mt-4" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="modern-card p-8 text-center">
+              <div className="w-12 h-12 rounded-xl bg-accent-green/10 flex items-center justify-center mx-auto mb-4">
+                <span className="text-accent-green text-xl">🌍</span>
+              </div>
+              <h4 className="font-display text-lg font-semibold mb-2">Environmental</h4>
+              <p className="text-sm text-brand-text/60 leading-relaxed">Reducing pollution, waste, and resource consumption across the entire supply chain.</p>
+            </div>
+            <div className="modern-card p-8 text-center">
+              <div className="w-12 h-12 rounded-xl bg-accent-terracotta/10 flex items-center justify-center mx-auto mb-4">
+                <span className="text-accent-terracotta text-xl">🤝</span>
+              </div>
+              <h4 className="font-display text-lg font-semibold mb-2">Social</h4>
+              <p className="text-sm text-brand-text/60 leading-relaxed">Supporting fair wages, safe working conditions, and labor rights for garment workers worldwide.</p>
+            </div>
+            <div className="modern-card p-8 text-center">
+              <div className="w-12 h-12 rounded-xl bg-accent-gold/10 flex items-center justify-center mx-auto mb-4">
+                <span className="text-accent-gold text-xl">💰</span>
+              </div>
+              <h4 className="font-display text-lg font-semibold mb-2">Economic</h4>
+              <p className="text-sm text-brand-text/60 leading-relaxed">Creating long-lasting, quality garments that save money and reduce waste over time.</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mb-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">The Life Cycle of Sustainable Fashion</h2>
-        <ol className="max-w-xl mx-auto space-y-3 list-decimal list-inside">
-          <li><strong>Design:</strong> Prioritizing low-impact materials and minimal waste patterns</li>
-          <li><strong>Production:</strong> Ethical manufacturing practices</li>
-          <li><strong>Use:</strong> Longevity, repair, and reuse</li>
-          <li><strong>End of Life:</strong> Recycling or upcycling to prevent landfill waste</li>
-        </ol>
+      {/* Fabrics */}
+      <section className="px-6 py-16 max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <p className="text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Materials</p>
+          <h3 className="font-display text-3xl font-bold text-brand-darkest">Common Sustainable Fabrics</h3>
+          <div className="section-divider mt-4" />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+          {["Organic Cotton", "Bamboo", "Tencel (Lyocell)", "Recycled Polyester", "Hemp"].map((fabric) => (
+            <div key={fabric} className="modern-card p-5 text-center hover:border-accent-green/20">
+              <p className="font-semibold text-sm text-brand-darkest">{fabric}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap justify-center gap-5">
+          <Image src="/images/sustainable-clothing-materials.png" alt="Sustainable materials" width={300} height={200} className="rounded-xl shadow-md hover:scale-105 transition-transform duration-500" />
+          <Image src="/images/types.jpg" alt="Types of sustainable fabrics" width={300} height={200} className="rounded-xl shadow-md hover:scale-105 transition-transform duration-500" />
+          <Image src="/images/textile-impact.png" alt="Textile impact" width={300} height={200} className="rounded-xl shadow-md hover:scale-105 transition-transform duration-500" />
+        </div>
       </section>
 
-      <section className="bg-accent-green-pale p-6 mx-4 mb-6 text-center rounded-lg">
-        <h3 className="text-xl font-bold mb-2">Want to Learn More?</h3>
-        <p className="mb-4">Check out our sustainability resources and brand directory to get started.</p>
-        <a href="/brands"
-          className="inline-block bg-accent-green text-white font-bold py-2 px-6 rounded hover:bg-accent-green-dark transition-colors">
-          Sustainable Brand List
-        </a>
+      {/* Life Cycle */}
+      <section className="px-6 py-16 bg-brand-linen/50">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Full Circle</p>
+            <h3 className="font-display text-3xl font-bold text-brand-darkest">The Life Cycle of Sustainable Fashion</h3>
+            <div className="section-divider mt-4" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {[
+              { step: "01", title: "Design", desc: "Low-impact materials and minimal waste patterns" },
+              { step: "02", title: "Production", desc: "Ethical manufacturing with fair labor practices" },
+              { step: "03", title: "Use", desc: "Longevity through quality, repair, and reuse" },
+              { step: "04", title: "End of Life", desc: "Recycling or upcycling to prevent landfill waste" },
+            ].map((item) => (
+              <div key={item.step} className="modern-card p-6 text-center">
+                <span className="font-display text-3xl font-bold text-accent-green/20 block mb-2">{item.step}</span>
+                <h4 className="font-display text-lg font-semibold mb-2">{item.title}</h4>
+                <p className="text-sm text-brand-text/60">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mb-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Resources</h2>
-        <ul className="max-w-md mx-auto space-y-2">
-          <li><a href="https://www.fashionrevolution.org/" target="_blank" rel="noopener noreferrer" className="font-bold text-brand-dark hover:text-accent-green transition-colors">Fashion Revolution</a></li>
-          <li><a href="https://goodonyou.eco/" target="_blank" rel="noopener noreferrer" className="font-bold text-brand-dark hover:text-accent-green transition-colors">Good On You (Brand Ratings)</a></li>
-          <li><a href="https://www.commonobjective.co/" target="_blank" rel="noopener noreferrer" className="font-bold text-brand-dark hover:text-accent-green transition-colors">Common Objective</a></li>
-        </ul>
+      {/* Resources & CTA */}
+      <section className="px-6 py-16 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="font-display text-2xl font-bold text-brand-darkest mb-6">Resources</h3>
+            <div className="space-y-3">
+              <a href="https://www.fashionrevolution.org/" target="_blank" rel="noopener noreferrer" className="block modern-card p-5 hover:border-accent-green/20 group">
+                <p className="font-semibold group-hover:text-accent-green transition-colors">Fashion Revolution</p>
+                <p className="text-sm text-brand-text/50">Global movement for transparency in fashion</p>
+              </a>
+              <a href="https://goodonyou.eco/" target="_blank" rel="noopener noreferrer" className="block modern-card p-5 hover:border-accent-green/20 group">
+                <p className="font-semibold group-hover:text-accent-green transition-colors">Good On You</p>
+                <p className="text-sm text-brand-text/50">Brand ratings for ethical fashion</p>
+              </a>
+              <a href="https://www.commonobjective.co/" target="_blank" rel="noopener noreferrer" className="block modern-card p-5 hover:border-accent-green/20 group">
+                <p className="font-semibold group-hover:text-accent-green transition-colors">Common Objective</p>
+                <p className="text-sm text-brand-text/50">Business intelligence for sustainable fashion</p>
+              </a>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className="cta-section w-full px-8 py-12 text-center">
+              <h3 className="font-display text-2xl font-bold mb-3">Want to Learn More?</h3>
+              <p className="text-white/70 mb-6">Explore our curated directory of sustainable brands.</p>
+              <Link href="/brands" className="inline-flex items-center gap-2 bg-white text-accent-green font-semibold px-6 py-3 rounded-xl hover:bg-brand-cream transition-all hover:-translate-y-0.5">
+                Brand Directory →
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );

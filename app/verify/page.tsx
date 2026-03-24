@@ -39,54 +39,68 @@ function VerifyForm() {
   }
 
   return (
-    <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mt-6 mb-6 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4 text-center">Verify Your Email</h2>
-      <p className="text-center mb-6 text-sm text-gray-600">
-        We sent a verification code to <strong>{email}</strong>. Enter it below.
-      </p>
+    <>
+      <section className="px-6 pt-16 pb-8 text-center">
+        <p className="animate-fade-up text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Almost There</p>
+        <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl font-bold text-brand-darkest mb-4">
+          Verify Your Email
+        </h2>
+        <p className="animate-fade-up delay-200 text-brand-text/60 max-w-md mx-auto">
+          We sent a verification code to <strong className="text-brand-darkest">{email}</strong>
+        </p>
+        <div className="section-divider mt-4" />
+      </section>
 
-      {error && (
-        <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">{error}</div>
-      )}
+      <section className="px-6 pb-20 max-w-md mx-auto animate-fade-up delay-300">
+        {error && (
+          <div className="bg-red-50 text-red-700 p-4 rounded-xl mb-6 text-sm border border-red-100">{error}</div>
+        )}
 
-      {resent && (
-        <div className="bg-green-100 text-green-700 p-3 rounded mb-4 text-sm">Code resent! Check your email.</div>
-      )}
+        {resent && (
+          <div className="bg-accent-green-pale text-accent-green p-4 rounded-xl mb-6 text-sm border border-accent-green/20">
+            Code resent! Check your email.
+          </div>
+        )}
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="code" className="block font-bold mb-1">Verification Code:</label>
-        <input
-          type="text"
-          id="code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          required
-          placeholder="Enter 6-digit code"
-          className="w-full p-2 mb-6 rounded border border-gray-300 text-center text-lg tracking-widest"
-        />
+        <div className="modern-card p-8 md:p-10">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="code" className="block text-sm font-semibold mb-2">Verification Code</label>
+              <input
+                type="text"
+                id="code"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                required
+                placeholder="Enter 6-digit code"
+                className="w-full px-4 py-3.5 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-center text-lg tracking-[0.3em] font-mono"
+              />
+            </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-accent-green text-white font-bold py-2 px-6 rounded hover:bg-accent-green-dark transition-colors disabled:opacity-50"
-        >
-          {loading ? "Verifying..." : "Verify Email"}
-        </button>
-      </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full btn-primary justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Verifying..." : "Verify Email →"}
+            </button>
+          </form>
+        </div>
 
-      <p className="text-center mt-4 text-sm">
-        Didn&apos;t receive a code?{" "}
-        <button onClick={handleResend} className="text-accent-green font-bold hover:underline">
-          Resend Code
-        </button>
-      </p>
-    </section>
+        <p className="text-center mt-6 text-sm text-brand-text/60">
+          Didn&apos;t receive a code?{" "}
+          <button onClick={handleResend} className="text-accent-green font-semibold hover:underline">
+            Resend Code
+          </button>
+        </p>
+      </section>
+    </>
   );
 }
 
 export default function Verify() {
   return (
-    <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+    <Suspense fallback={<div className="text-center mt-10 font-display text-lg text-brand-text/40">Loading...</div>}>
       <VerifyForm />
     </Suspense>
   );

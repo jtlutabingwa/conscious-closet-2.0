@@ -6,8 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "The Conscious Closet",
-  description: "Empowering you to make eco-conscious fashion choices.",
+  title: "The Conscious Closet — Sustainable Fashion",
+  description: "Empowering you to make eco-conscious fashion choices. Discover ethical brands, reduce waste, and join a community for mindful fashion.",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-gradient-to-br from-brand-cream to-brand-warm text-brand-text min-h-screen flex flex-col">
+      <body className="grain min-h-screen flex flex-col">
         <ConfigureAmplify />
         <AuthProvider>
           <Header />
