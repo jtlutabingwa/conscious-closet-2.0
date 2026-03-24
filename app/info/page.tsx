@@ -37,7 +37,7 @@ export default function Info() {
                 We encourage everyone interested in sustainable fashion to read Elizabeth&apos;s book — it&apos;s the definitive guide to making mindful clothing choices and understanding the fashion industry&apos;s impact on people and the planet.
               </p>
               <a
-                href="https://www.elizabethlcline.com/the-conscious-closet"
+                href="https://www.elizabethclinebooks.com/the-conscious-closet"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-accent-green font-semibold text-sm hover:underline"
