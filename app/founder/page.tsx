@@ -19,7 +19,7 @@ export default function Founder() {
             <div className="w-64 md:w-80 shrink-0">
               <div className="relative rounded-2xl overflow-hidden shadow-lg">
                 <Image
-                  src="/images/holly.JPG"
+                  src="/images/holly1.JPG"
                   alt="Holly Needham, Founder of The Conscious Closet"
                   width={320}
                   height={420}
