@@ -1,43 +1,33 @@
 "use client";
 import { useState } from "react";
-import { signUp } from "aws-amplify/auth";
+import { signIn } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/components/AuthContext";
 
-export default function SignUp() {
-  const [name, setName] = useState("");
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { checkUser } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      const result = await signUp({
-        username: email,
-        password,
-        options: {
-          userAttributes: { email, name },
-        },
-      });
-
-      if (result.nextStep?.signUpStep === "CONFIRM_SIGN_UP") {
+      const result = await signIn({ username: email, password });
+      if (result.isSignedIn) {
+        await checkUser();
+        router.push("/profile");
+      } else if (result.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
         router.push(`/verify?email=${encodeURIComponent(email)}`);
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Sign up failed. Please try again.";
+      const message = err instanceof Error ? err.message : "Login failed. Please try again.";
       setError(message);
     }
     setLoading(false);
@@ -46,9 +36,9 @@ export default function SignUp() {
   return (
     <>
       <section className="px-6 pt-16 pb-8 text-center">
-        <p className="animate-fade-up text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Join the Movement</p>
+        <p className="animate-fade-up text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Welcome Back</p>
         <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl font-bold text-brand-darkest mb-4">
-          Create Account
+          Log In
         </h2>
         <div className="section-divider mt-4" />
       </section>
@@ -60,18 +50,6 @@ export default function SignUp() {
 
         <div className="modern-card p-8 md:p-10">
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="name" className="block text-sm font-semibold mb-2">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
-              />
-            </div>
-
             <div>
               <label htmlFor="email" className="block text-sm font-semibold mb-2">Email</label>
               <input
@@ -92,20 +70,6 @@ export default function SignUp() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={8}
-                className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
-              />
-              <p className="text-xs text-brand-text/40 mt-1.5">At least 8 characters, mixed case, and numbers</p>
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2">Confirm Password</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
                 className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
               />
             </div>
@@ -115,15 +79,15 @@ export default function SignUp() {
               disabled={loading}
               className="w-full btn-primary justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Creating Account..." : "Sign Up →"}
+              {loading ? "Logging in..." : "Log In →"}
             </button>
           </form>
         </div>
 
         <p className="text-center mt-6 text-sm text-brand-text/60">
-          Already have an account?{" "}
-          <Link href="/login" className="text-accent-green font-semibold hover:underline">
-            Log In
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" className="text-accent-green font-semibold hover:underline">
+            Sign Up
           </Link>
         </p>
       </section>
