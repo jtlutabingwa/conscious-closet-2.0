@@ -1,4 +1,4 @@
-# 🌿 The Conscious Closet
+# 🌿 The Conscious Closet 2.0
 
 **Empowering mindful fashion choices through education, community, and action.**
 
