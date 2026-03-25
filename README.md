@@ -40,7 +40,7 @@ The original project used `HTML.Include.min.js` to inject a shared header and fo
 ## 🏗️ Architecture
 
 ```
-<img src="images/AWS-Diagram.drawio.png" alt="AWS Architecture" width="600">
+<img src="images/AWS-Diagram.png" alt="AWS Architecture" width="600">
 
 ```
 
