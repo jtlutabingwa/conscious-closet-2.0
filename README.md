@@ -40,22 +40,8 @@ The original project used `HTML.Include.min.js` to inject a shared header and fo
 ## 🏗️ Architecture
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Browser    │────▶│  CloudFront  │────▶│  S3 Bucket  │
-│   (User)     │     │    (CDN)     │     │  (Static)   │
-└──────┬───────┘     └──────────────┘     └─────────────┘
-       │
-       │  API Calls
-       ▼
-┌──────────────┐     ┌──────────────┐     ┌─────────────┐
-│  AWS Amplify │     │ API Gateway  │────▶│   Lambda    │
-│  (Next.js)   │────▶│  (REST API)  │     │ (Node.js)   │
-└──────────────┘     └──────┬───────┘     └──────┬──────┘
-                            │                     │
-                     ┌──────▼───────┐     ┌──────▼──────┐
-                     │   Cognito    │     │  DynamoDB   │
-                     │  (Auth)      │     │ (Database)  │
-                     └──────────────┘     └─────────────┘
+<img src="images/AWS-Diagram.drawio.png" alt="AWS Architecture" width="600">
+
 ```
 
 ---
