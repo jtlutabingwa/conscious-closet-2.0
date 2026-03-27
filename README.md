@@ -4,7 +4,7 @@
 
 A full-stack sustainable fashion platform built with Next.js and AWS serverless architecture. The Conscious Closet educates users about eco-friendly fashion, connects them with sustainable brands, and provides tools for community engagement — including event discovery, idea submissions, and a growing network of conscious consumers.
 
-🔗 **Live Site:** [main.d27864khk00keb.amplifyapp.com](https://main.d27864khk00keb.amplifyapp.com)
+🔗 **Live Site (without login, signup, and submission form):** [public.d27864khk00keb.amplifyapp.com/](https://public.d27864khk00keb.amplifyapp.com/)
 
 ---
 
