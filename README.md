@@ -6,7 +6,7 @@ A full-stack sustainable fashion platform built with Next.js and AWS serverless 
 
 🔗 **Live Site (Public):** [public.d27864khk00keb.amplifyapp.com](https://public.d27864khk00keb.amplifyapp.com/) — Browse freely, no account needed
 
-🔗 **Live Site (Full Platform):** Available on request — [Connect on LinkedIn](https://www.linkedin.com/in/jonathan-lutabingwa/) for access to user accounts, submissions, and the complete platform
+🔗 **Live Site (Full Platform):** Available on request — [Connect on LinkedIn](https://www.linkedin.com/in/jonathan-lutabingwa/) and message me for access to user accounts, submissions, and the complete platform
 
 ---
 
