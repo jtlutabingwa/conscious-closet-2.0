@@ -130,6 +130,33 @@ conscious-closet/
 ```
 
 ---
+ 
+## 🚀 Getting Started
+ 
+### Prerequisites
+- Node.js 18+
+- AWS account (for backend services)
+- Git
+ 
+### Local Development
+ 
+```bash
+# Clone the repository
+git clone https://github.com/jtlutabingwa/concious-closet-2.0.git
+cd concious-closet-2.0
+ 
+# Install dependencies
+npm install
+ 
+# Run development server
+npm run dev
+```
+ 
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+ 
+> **Note:** The frontend runs locally at localhost:3000 with full navigation and page rendering. Form submissions and user authentication require the AWS backend services (API Gateway, Lambda, DynamoDB, Cognito), which are configured separately and not included in this repo.
+
+---
 
 
 ### AWS Services
