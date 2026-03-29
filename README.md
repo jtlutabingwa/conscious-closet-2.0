@@ -4,7 +4,9 @@
 
 A full-stack sustainable fashion platform built with Next.js and AWS serverless architecture. The Conscious Closet educates users about eco-friendly fashion, connects them with sustainable brands, and provides tools for community engagement — including event discovery, idea submissions, and a growing network of conscious consumers.
 
-🔗 **Live Site:** [main.d27864khk00keb.amplifyapp.com](https://main.d27864khk00keb.amplifyapp.com)
+🔗 **Live Site (Public):** [public.d27864khk00keb.amplifyapp.com](https://public.d27864khk00keb.amplifyapp.com/) — Browse freely, no account needed
+
+🔗 **Live Site (Full Platform):** Available on request — [Connect on LinkedIn](https://www.linkedin.com/in/jonathan-lutabingwa/) and message me for access to user accounts, submissions, and the complete platform
 
 ---
 
@@ -130,29 +132,34 @@ conscious-closet/
 ```
 
 ---
-
+ 
 ## 🚀 Getting Started
-
+ 
 ### Prerequisites
 - Node.js 18+
 - AWS account (for backend services)
 - Git
-
+ 
 ### Local Development
-
+ 
 ```bash
 # Clone the repository
 git clone https://github.com/jtlutabingwa/concious-closet-2.0.git
 cd concious-closet-2.0
-
+ 
 # Install dependencies
 npm install
-
+ 
 # Run development server
 npm run dev
 ```
-
+ 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+ 
+> **Note:** The frontend runs locally at localhost:3000 with full navigation and page rendering. Form submissions and user authentication require the AWS backend services (API Gateway, Lambda, DynamoDB, Cognito), which are configured separately and not included in this repo.
+
+---
+
 
 ### AWS Services
 
