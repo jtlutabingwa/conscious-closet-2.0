@@ -4,6 +4,22 @@ import { signUp } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+function sanitize(input: string, maxLength: number = 500): string {
+  return input
+    .replace(/<[^>]*>/g, '')
+    .replace(/[<>'"`;]/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isValidName(name: string): boolean {
+  return /^[a-zA-Z\s\-'.]{2,100}$/.test(name);
+}
+
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +33,39 @@ export default function SignUp() {
     e.preventDefault();
     setError("");
 
+    const cleanName = sanitize(name, 100);
+    const cleanEmail = sanitize(email, 254);
+
+    if (!cleanName || !isValidName(cleanName)) {
+      setError("Please enter a valid name (letters, spaces, hyphens, and apostrophes only).");
+      return;
+    }
+
+    if (!cleanEmail || !isValidEmail(cleanEmail)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      setError("Password must contain at least one uppercase letter.");
+      return;
+    }
+
+    if (!/[a-z]/.test(password)) {
+      setError("Password must contain at least one lowercase letter.");
+      return;
+    }
+
+    if (!/[0-9]/.test(password)) {
+      setError("Password must contain at least one number.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -26,15 +75,15 @@ export default function SignUp() {
 
     try {
       const result = await signUp({
-        username: email,
+        username: cleanEmail,
         password,
         options: {
-          userAttributes: { email, name },
+          userAttributes: { email: cleanEmail, name: cleanName },
         },
       });
 
       if (result.nextStep?.signUpStep === "CONFIRM_SIGN_UP") {
-        router.push(`/verify?email=${encodeURIComponent(email)}`);
+        router.push(`/verify?email=${encodeURIComponent(cleanEmail)}`);
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Sign up failed. Please try again.";
@@ -68,6 +117,7 @@ export default function SignUp() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                maxLength={100}
                 className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
               />
             </div>
@@ -80,6 +130,7 @@ export default function SignUp() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                maxLength={254}
                 className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
               />
             </div>
@@ -93,9 +144,10 @@ export default function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
+                maxLength={128}
                 className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
               />
-              <p className="text-xs text-brand-text/40 mt-1.5">At least 8 characters, mixed case, and numbers</p>
+              <p className="text-xs text-brand-text/40 mt-1.5">At least 8 characters with uppercase, lowercase, and a number</p>
             </div>
 
             <div>
@@ -106,6 +158,7 @@ export default function SignUp() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                maxLength={128}
                 className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
               />
             </div>

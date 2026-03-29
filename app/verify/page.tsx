@@ -3,35 +3,72 @@ import { useState, Suspense } from "react";
 import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 
+function sanitize(input: string, maxLength: number = 500): string {
+  return input
+    .replace(/<[^>]*>/g, '')
+    .replace(/[<>'"`;]/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
 function VerifyForm() {
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "";
+  const rawEmail = searchParams.get("email") || "";
+  const email = sanitize(rawEmail, 254);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [resent, setResent] = useState(false);
+  const [resendCount, setResendCount] = useState(0);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    // Only allow digits in the code
+    const cleanCode = code.replace(/[^0-9]/g, '').slice(0, 6);
+
+    if (!cleanCode || cleanCode.length !== 6) {
+      setError("Please enter a valid 6-digit verification code.");
+      return;
+    }
+
+    if (!email) {
+      setError("Email address is missing. Please go back and sign up again.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await confirmSignUp({ username: email, confirmationCode: code });
+      await confirmSignUp({ username: email, confirmationCode: cleanCode });
       alert("Email verified! You can now log in.");
       router.push("/login");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Verification failed.";
-      setError(message);
+      if (message.includes("CodeMismatchException")) {
+        setError("Incorrect verification code. Please check and try again.");
+      } else if (message.includes("ExpiredCodeException")) {
+        setError("This code has expired. Please request a new one.");
+      } else {
+        setError(message);
+      }
     }
     setLoading(false);
   }
 
   async function handleResend() {
+    if (resendCount >= 3) {
+      setError("Maximum resend attempts reached. Please wait a few minutes.");
+      return;
+    }
+
     try {
       await resendSignUpCode({ username: email });
       setResent(true);
+      setResendCount(prev => prev + 1);
+      setError("");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to resend code.";
       setError(message);
@@ -70,9 +107,12 @@ function VerifyForm() {
                 type="text"
                 id="code"
                 value={code}
-                onChange={(e) => setCode(e.target.value)}
+                onChange={(e) => setCode(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
                 required
                 placeholder="Enter 6-digit code"
+                maxLength={6}
+                inputMode="numeric"
+                pattern="[0-9]{6}"
                 className="w-full px-4 py-3.5 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-center text-lg tracking-[0.3em] font-mono"
               />
             </div>
@@ -89,8 +129,12 @@ function VerifyForm() {
 
         <p className="text-center mt-6 text-sm text-brand-text/60">
           Didn&apos;t receive a code?{" "}
-          <button onClick={handleResend} className="text-accent-green font-semibold hover:underline">
-            Resend Code
+          <button
+            onClick={handleResend}
+            disabled={resendCount >= 3}
+            className="text-accent-green font-semibold hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {resendCount >= 3 ? "Max resends reached" : "Resend Code"}
           </button>
         </p>
       </section>

@@ -5,30 +5,72 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthContext";
 
+function sanitize(input: string, maxLength: number = 500): string {
+  return input
+    .replace(/<[^>]*>/g, '')
+    .replace(/[<>'"`;]/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [attempts, setAttempts] = useState(0);
   const router = useRouter();
   const { checkUser } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    // Client-side rate limiting
+    if (attempts >= 5) {
+      setError("Too many login attempts. Please wait a few minutes and try again.");
+      return;
+    }
+
+    const cleanEmail = sanitize(email, 254);
+
+    if (!cleanEmail || !isValidEmail(cleanEmail)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!password || password.length < 1) {
+      setError("Please enter your password.");
+      return;
+    }
+
     setLoading(true);
+    setAttempts(prev => prev + 1);
 
     try {
-      const result = await signIn({ username: email, password });
+      const result = await signIn({ username: cleanEmail, password });
       if (result.isSignedIn) {
+        setAttempts(0);
         await checkUser();
         router.push("/profile");
       } else if (result.nextStep?.signInStep === "CONFIRM_SIGN_UP") {
-        router.push(`/verify?email=${encodeURIComponent(email)}`);
+        router.push(`/verify?email=${encodeURIComponent(cleanEmail)}`);
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Login failed. Please try again.";
-      setError(message);
+      if (message.includes("NotAuthorizedException")) {
+        setError("Incorrect email or password.");
+      } else if (message.includes("UserNotFoundException")) {
+        setError("No account found with that email.");
+      } else if (message.includes("TooManyRequestsException")) {
+        setError("Too many attempts. Please wait a few minutes.");
+      } else {
+        setError(message);
+      }
     }
     setLoading(false);
   }
@@ -58,6 +100,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                maxLength={254}
                 className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
               />
             </div>
@@ -70,13 +113,14 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                maxLength={128}
                 className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
               />
             </div>
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || attempts >= 5}
               className="w-full btn-primary justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Logging in..." : "Log In →"}
