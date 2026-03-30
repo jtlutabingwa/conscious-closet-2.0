@@ -4,6 +4,18 @@ import { fetchAuthSession } from "aws-amplify/auth";
 import { useAuth } from "@/components/AuthContext";
 import Link from "next/link";
 
+function sanitize(input: string, maxLength: number = 500): string {
+  return input
+    .replace(/<[^>]*>/g, '')
+    .replace(/[<>'"`;]/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export default function Submit() {
   const [loading, setLoading] = useState(false);
   const { user, userAttributes } = useAuth();
@@ -13,43 +25,64 @@ export default function Submit() {
     setLoading(true);
 
     const form = e.currentTarget;
+    const rawName = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const rawEmail = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const rawIdea = (form.elements.namedItem("idea") as HTMLTextAreaElement).value;
+    const rawDate = (form.elements.namedItem("event-date") as HTMLInputElement).value;
+
+    // Sanitize inputs
+    const cleanName = sanitize(rawName, 100);
+    const cleanEmail = sanitize(rawEmail, 254);
+    const cleanIdea = sanitize(rawIdea, 2000);
+    const cleanDate = sanitize(rawDate, 10);
+
+    // Validate
+    if (!cleanName || cleanName.length < 2) {
+      alert("Please enter a valid name (at least 2 characters).");
+      setLoading(false);
+      return;
+    }
+
+    if (!cleanEmail || !isValidEmail(cleanEmail)) {
+      alert("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    if (cleanDate && !/^\d{2}\/\d{2}\/\d{4}$/.test(cleanDate)) {
+      alert("Event date must be in MM/DD/YYYY format.");
+      setLoading(false);
+      return;
+    }
+
     const data = {
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      idea: (form.elements.namedItem("idea") as HTMLTextAreaElement).value,
-      eventDate: (form.elements.namedItem("event-date") as HTMLInputElement).value,
+      name: cleanName,
+      email: cleanEmail,
+      idea: cleanIdea,
+      eventDate: cleanDate,
     };
 
     try {
-      // Build headers with auth token if logged in
       const headers: Record<string, string> = { "Content-Type": "application/json" };
-
       if (user) {
         try {
           const session = await fetchAuthSession();
           const token = session.tokens?.idToken?.toString();
-          if (token) {
-            headers["Authorization"] = `Bearer ${token}`;
-          }
-        } catch {
-          // Continue without auth token
-        }
+          if (token) headers["Authorization"] = `Bearer ${token}`;
+        } catch { /* continue without token */ }
       }
 
       const response = await fetch(
         "https://qrd0rlcn9h.execute-api.us-east-1.amazonaws.com/submissions",
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify(data),
-        }
+        { method: "POST", headers, body: JSON.stringify(data) }
       );
-
       const result = await response.json();
 
       if (response.ok) {
         alert("Thank you! Your submission ID is: " + result.submissionId);
         form.reset();
+      } else if (response.status === 429) {
+        alert(result.error || "You've reached the daily submission limit. Please try again tomorrow.");
       } else {
         alert("Error: " + result.error);
       }
@@ -60,71 +93,94 @@ export default function Submit() {
   }
 
   return (
-    <section className="bg-brand-linen border-l-4 border-brand-brown p-6 mx-4 mt-6 mb-6">
-      <h2 className="text-2xl font-bold mb-2 text-center">Get Involved!</h2>
-      <p className="text-center mb-6">
-        Submit your sustainable fashion ideas, sign up for future events, or just show your support!
-      </p>
+    <>
+      <section className="px-6 pt-16 pb-12 text-center">
+        <p className="animate-fade-up text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Your Voice Matters</p>
+        <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-5xl font-bold text-brand-darkest mb-4">
+          Get Involved
+        </h2>
+        <p className="animate-fade-up delay-200 text-brand-text/60 max-w-2xl mx-auto">
+          Submit your sustainable fashion ideas, suggest events, or share your tips with the community.
+        </p>
+        <div className="section-divider mt-6" />
+      </section>
 
-      {!user && (
-        <div className="bg-accent-green-light border border-accent-green rounded-lg p-4 mb-6 text-center max-w-xl mx-auto">
-          <p className="text-sm">
-            <Link href="/login" className="text-accent-green font-bold hover:underline">Log in</Link>
-            {" "}or{" "}
-            <Link href="/signup" className="text-accent-green font-bold hover:underline">sign up</Link>
-            {" "}to track your submissions and connect them to your profile.
-          </p>
+      <section className="px-6 pb-20 max-w-2xl mx-auto">
+        {!user && (
+          <div className="bg-accent-green-pale border border-accent-green/20 rounded-xl p-5 mb-8 text-center animate-fade-up delay-200">
+            <p className="text-sm text-brand-text/70">
+              <Link href="/login" className="text-accent-green font-semibold hover:underline">Log in</Link>
+              {" "}or{" "}
+              <Link href="/signup" className="text-accent-green font-semibold hover:underline">sign up</Link>
+              {" "}to track your submissions and connect them to your profile.
+            </p>
+          </div>
+        )}
+
+        <div className="modern-card p-8 md:p-10 animate-fade-up delay-300">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-semibold mb-2">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                maxLength={100}
+                defaultValue={userAttributes.name || ""}
+                className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold mb-2">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                maxLength={254}
+                defaultValue={userAttributes.email || ""}
+                className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="idea" className="block text-sm font-semibold mb-2">Your Sustainable Fashion Idea</label>
+              <textarea
+                id="idea"
+                name="idea"
+                rows={5}
+                maxLength={2000}
+                placeholder="Describe your idea, event suggestion, or sustainability tip..."
+                className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm resize-none"
+              />
+              <p className="text-xs text-brand-text/30 mt-1 text-right">Max 2000 characters</p>
+            </div>
+
+            <div>
+              <label htmlFor="event-date" className="block text-sm font-semibold mb-2">Event Date <span className="font-normal text-brand-text/40">(optional)</span></label>
+              <input
+                type="text"
+                id="event-date"
+                name="event-date"
+                placeholder="MM/DD/YYYY"
+                maxLength={10}
+                pattern="\d{2}/\d{2}/\d{4}"
+                className="w-full px-4 py-3 rounded-xl border border-brand-brown/10 bg-white focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full btn-primary justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Submitting..." : "Submit Idea →"}
+            </button>
+          </form>
         </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="max-w-xl mx-auto">
-        <label htmlFor="name" className="block font-bold mb-1">Full Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          defaultValue={userAttributes.name || ""}
-          className="w-full p-2 mb-4 rounded border border-gray-300"
-        />
-
-        <label htmlFor="email" className="block font-bold mb-1">Email Address:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          defaultValue={userAttributes.email || ""}
-          className="w-full p-2 mb-4 rounded border border-gray-300"
-        />
-
-        <label htmlFor="idea" className="block font-bold mb-1">Your Sustainable Fashion Idea:</label>
-        <textarea
-          id="idea"
-          name="idea"
-          rows={5}
-          placeholder="Describe your idea."
-          className="w-full p-2 mb-4 rounded border border-gray-300"
-        />
-
-        <label htmlFor="event-date" className="block font-bold mb-1">Event Date (MM/DD/YYYY):</label>
-        <input
-          type="text"
-          id="event-date"
-          name="event-date"
-          placeholder="MM/DD/YYYY"
-          className="w-full p-2 mb-1 rounded border border-gray-300"
-        />
-        <small className="block mb-4 text-gray-500">Format: MM/DD/YYYY</small>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-accent-green text-white font-bold py-2 px-6 rounded hover:bg-accent-green-dark transition-colors block mx-auto disabled:opacity-50"
-        >
-          {loading ? "Submitting..." : "Submit Idea"}
-        </button>
-      </form>
-    </section>
+      </section>
+    </>
   );
 }
