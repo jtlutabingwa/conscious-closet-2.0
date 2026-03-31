@@ -172,7 +172,7 @@ export default function Info() {
             <div className="cta-section w-full px-8 py-12 text-center">
               <h3 className="font-display text-2xl font-bold mb-3">Want to Learn More?</h3>
               <p className="text-white/70 mb-6">Explore our curated directory of sustainable brands.</p>
-              <Link href="app\brands" className="inline-flex items-center gap-2 bg-white text-accent-green font-semibold px-6 py-3 rounded-xl hover:bg-brand-cream transition-all hover:-translate-y-0.5">
+              <Link href="/brands" className="inline-flex items-center gap-2 bg-white text-accent-green font-semibold px-6 py-3 rounded-xl hover:bg-brand-cream transition-all hover:-translate-y-0.5">
                 Brand Directory →
               </Link>
             </div>
