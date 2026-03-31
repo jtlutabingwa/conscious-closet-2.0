@@ -7,7 +7,7 @@ export default function Events() {
       <section className="px-6 pt-16 pb-12 text-center">
         <p className="animate-fade-up text-accent-green font-semibold text-sm uppercase tracking-widest mb-3">Join Us</p>
         <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-5xl font-bold text-brand-darkest mb-4">
-          Upcoming Events
+          Upcoming Fictional Events
         </h2>
         <p className="animate-fade-up delay-200 text-brand-text/60 max-w-2xl mx-auto">
           Connect with your community through workshops, webinars, and swap meets. Every event is a step toward a more sustainable future.

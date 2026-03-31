@@ -30,7 +30,6 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    // Client-side rate limiting
     if (attempts >= 5) {
       setError("Too many login attempts. Please wait a few minutes and try again.");
       return;
@@ -106,7 +105,12 @@ export default function Login() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label>
+              <div className="flex justify-between items-center mb-2">
+                <label htmlFor="password" className="block text-sm font-semibold">Password</label>
+                <Link href="/reset-password" className="text-xs text-accent-green hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
               <input
                 type="password"
                 id="password"
