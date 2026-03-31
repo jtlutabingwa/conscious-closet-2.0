@@ -10,7 +10,6 @@ const navLinks = [
   { href: "/brands", label: "Brands" },
   { href: "/info", label: "Learn" },
   { href: "/why", label: "Why?" },
-  { href: "/gallery", label: "Gallery" },
   { href: "/take-action", label: "Act" },
   { href: "/founder", label: "Founder" },
 ];
