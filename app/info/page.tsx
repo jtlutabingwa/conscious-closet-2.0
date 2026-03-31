@@ -150,7 +150,7 @@ export default function Info() {
           <div>
             <h3 className="font-display text-2xl font-bold text-brand-darkest mb-6">Resources</h3>
             <div className="space-y-3">
-              <a href="https://www.elizabethlcline.com/the-conscious-closet" target="_blank" rel="noopener noreferrer" className="block modern-card p-5 hover:border-accent-green/20 group">
+              <a href="https://www.elizabethclinebooks.com/the-conscious-closet" target="_blank" rel="noopener noreferrer" className="block modern-card p-5 hover:border-accent-green/20 group">
                 <p className="font-semibold group-hover:text-accent-green transition-colors">The Conscious Closet (Book)</p>
                 <p className="text-sm text-brand-text/50">By Elizabeth L. Cline — the book that inspired this platform</p>
               </a>
@@ -172,7 +172,7 @@ export default function Info() {
             <div className="cta-section w-full px-8 py-12 text-center">
               <h3 className="font-display text-2xl font-bold mb-3">Want to Learn More?</h3>
               <p className="text-white/70 mb-6">Explore our curated directory of sustainable brands.</p>
-              <Link href="/brands" className="inline-flex items-center gap-2 bg-white text-accent-green font-semibold px-6 py-3 rounded-xl hover:bg-brand-cream transition-all hover:-translate-y-0.5">
+              <Link href="app\brands" className="inline-flex items-center gap-2 bg-white text-accent-green font-semibold px-6 py-3 rounded-xl hover:bg-brand-cream transition-all hover:-translate-y-0.5">
                 Brand Directory →
               </Link>
             </div>
