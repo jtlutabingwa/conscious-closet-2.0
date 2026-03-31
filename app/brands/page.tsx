@@ -1,16 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/components/AuthContext";
+import { fetchAuthSession } from "aws-amplify/auth";
 
 const brands = [
-  // Original 5
   { name: "Patagonia", desc: "Pioneer in outdoor gear with environmental activism and recycled materials.", url: "https://www.patagonia.com/", img: "/images/brands/patagonia.png", tag: "Outdoor" },
   { name: "Reformation", desc: "Sustainable fabrics and eco-friendly manufacturing with vintage cool-girl style.", url: "https://www.thereformation.com/", img: "/images/brands/reformation.jpg", tag: "Women's" },
   { name: "Kotn", desc: "Ethically sourced Egyptian cotton basics supporting smallholder farmers.", url: "https://kotn.com/", img: "/images/brands/kotn.png", tag: "Essentials" },
   { name: "Koru Eco Brand", desc: "Living in harmony with nature through conscious, eco-friendly design.", url: "https://koruecobrand.com/", img: "/images/brands/koruecobrand.jpg", tag: "Lifestyle" },
   { name: "Mi Terro", desc: "Transforming biomass waste into sustainable fabrics to end microplastics.", url: "https://www.miterro.com/", img: "/images/brands/mi-terro.png", tag: "Innovation" },
-  // New 15
   { name: "Stella McCartney", desc: "Luxury fashion pioneer — no leather, fur, or feathers since 2001.", url: "https://www.stellamccartney.com/", img: "/images/brands/stella-mccartney.jpg", tag: "Luxury" },
   { name: "Eileen Fisher", desc: "Timeless elegance with organic fibers and a take-back upcycling program.", url: "https://www.eileenfisher.com/", img: "/images/brands/eileen-fisher.png", tag: "Women's" },
   { name: "Everlane", desc: "Radical transparency in pricing and ethical factory partnerships worldwide.", url: "https://www.everlane.com/", img: "/images/brands/everlane.png", tag: "Essentials" },
@@ -29,21 +29,86 @@ const brands = [
 ];
 
 function sanitizeSearch(input: string): string {
-  return input
-    .replace(/<[^>]*>/g, '')
-    .replace(/[<>'"`;]/g, '')
-    .slice(0, 100);
+  return input.replace(/<[^>]*>/g, '').replace(/[<>'"`;]/g, '').slice(0, 100);
 }
 
 export default function Brands() {
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [savedBrands, setSavedBrands] = useState<string[]>([]);
+  const [savingBrand, setSavingBrand] = useState<string | null>(null);
+  const { user } = useAuth();
+
+  const tags = [...new Set(brands.map(b => b.tag))];
+
+  useEffect(() => {
+    async function fetchSaved() {
+      if (!user) return;
+      try {
+        const session = await fetchAuthSession();
+        const token = session.tokens?.idToken?.toString();
+        if (!token) return;
+
+        const response = await fetch(
+          "https://qrd0rlcn9h.execute-api.us-east-1.amazonaws.com/brands/saved",
+          { headers: { "Authorization": `Bearer ${token}` } }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setSavedBrands(data.savedBrands || []);
+        }
+      } catch {
+        console.error("Failed to fetch saved brands");
+      }
+    }
+    fetchSaved();
+  }, [user]);
+
+  async function toggleSave(brandName: string, e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      alert("Please log in to save brands.");
+      return;
+    }
+
+    setSavingBrand(brandName);
+    const isSaved = savedBrands.includes(brandName);
+
+    try {
+      const session = await fetchAuthSession();
+      const token = session.tokens?.idToken?.toString();
+      if (!token) return;
+
+      const response = await fetch(
+        "https://qrd0rlcn9h.execute-api.us-east-1.amazonaws.com/brands/saved",
+        {
+          method: isSaved ? "DELETE" : "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ brandName }),
+        }
+      );
+
+      if (response.ok) {
+        if (isSaved) {
+          setSavedBrands(prev => prev.filter(b => b !== brandName));
+        } else {
+          setSavedBrands(prev => [...prev, brandName]);
+        }
+      }
+    } catch {
+      console.error("Failed to save brand");
+    }
+    setSavingBrand(null);
+  }
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(sanitizeSearch(e.target.value));
   };
-
-  const tags = [...new Set(brands.map(b => b.tag))];
 
   const filtered = brands.filter((b) => {
     const matchesSearch =
@@ -63,6 +128,11 @@ export default function Brands() {
         </h2>
         <p className="animate-fade-up delay-200 text-brand-text/60 max-w-2xl mx-auto mb-6">
           Discover {brands.length} brands that prioritize the planet, people, and quality craftsmanship.
+          {user && savedBrands.length > 0 && (
+            <span className="block mt-2 text-accent-green font-medium text-sm">
+              You&apos;ve saved {savedBrands.length} brand{savedBrands.length !== 1 ? "s" : ""}
+            </span>
+          )}
         </p>
         <div className="animate-fade-up delay-300 max-w-md mx-auto mb-6">
           <input
@@ -74,14 +144,11 @@ export default function Brands() {
             className="w-full px-5 py-3.5 rounded-xl border border-brand-brown/10 bg-white/80 backdrop-blur-sm focus:border-accent-green focus:outline-none focus:ring-2 focus:ring-accent-green/20 transition-all text-sm"
           />
         </div>
-        {/* Tag filters */}
         <div className="flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
           <button
             onClick={() => setActiveTag(null)}
             className={`text-xs font-medium px-4 py-1.5 rounded-full transition-all ${
-              !activeTag
-                ? "bg-accent-green text-white"
-                : "bg-brand-linen text-brand-text/60 hover:bg-brand-warm"
+              !activeTag ? "bg-accent-green text-white" : "bg-brand-linen text-brand-text/60 hover:bg-brand-warm"
             }`}
           >
             All
@@ -91,9 +158,7 @@ export default function Brands() {
               key={tag}
               onClick={() => setActiveTag(activeTag === tag ? null : tag)}
               className={`text-xs font-medium px-4 py-1.5 rounded-full transition-all ${
-                activeTag === tag
-                  ? "bg-accent-green text-white"
-                  : "bg-brand-linen text-brand-text/60 hover:bg-brand-warm"
+                activeTag === tag ? "bg-accent-green text-white" : "bg-brand-linen text-brand-text/60 hover:bg-brand-warm"
               }`}
             >
               {tag}
@@ -105,35 +170,48 @@ export default function Brands() {
       <section className="px-6 pb-16 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {filtered.map((brand) => (
-            <a
-              key={brand.name}
-              href={brand.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="modern-card group"
-            >
-              <div className="relative h-40 overflow-hidden">
-                <Image
-                  src={brand.img}
-                  alt={brand.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs font-semibold text-brand-darkest px-2.5 py-1 rounded-full">
-                  {brand.tag}
-                </span>
-              </div>
-              <div className="p-5">
-                <h3 className="font-display text-base font-semibold text-brand-darkest group-hover:text-accent-green transition-colors mb-1.5">
-                  {brand.name}
-                </h3>
-                <p className="text-xs text-brand-text/60 leading-relaxed">{brand.desc}</p>
-                <span className="inline-flex items-center gap-1 text-accent-green text-xs font-medium mt-3 group-hover:gap-2 transition-all">
-                  Visit Brand →
-                </span>
-              </div>
-            </a>
+            <div key={brand.name} className="modern-card group relative">
+              <button
+                onClick={(e) => toggleSave(brand.name, e)}
+                disabled={savingBrand === brand.name}
+                className={`absolute top-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                  savedBrands.includes(brand.name)
+                    ? "bg-accent-green text-white"
+                    : "bg-white/80 backdrop-blur-sm text-brand-text/40 hover:text-accent-green"
+                } ${savingBrand === brand.name ? "opacity-50" : ""}`}
+                title={savedBrands.includes(brand.name) ? "Remove from saved" : "Save brand"}
+              >
+                {savedBrands.includes(brand.name) ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                )}
+              </button>
+
+              <a href={brand.url} target="_blank" rel="noopener noreferrer" className="block">
+                <div className="relative h-40 overflow-hidden">
+                  <Image
+                    src={brand.img}
+                    alt={brand.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                  <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs font-semibold text-brand-darkest px-2.5 py-1 rounded-full">
+                    {brand.tag}
+                  </span>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-display text-base font-semibold text-brand-darkest group-hover:text-accent-green transition-colors mb-1.5">
+                    {brand.name}
+                  </h3>
+                  <p className="text-xs text-brand-text/60 leading-relaxed">{brand.desc}</p>
+                  <span className="inline-flex items-center gap-1 text-accent-green text-xs font-medium mt-3 group-hover:gap-2 transition-all">
+                    Visit Brand →
+                  </span>
+                </div>
+              </a>
+            </div>
           ))}
         </div>
 

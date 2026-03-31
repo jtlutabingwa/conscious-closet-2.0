@@ -3,6 +3,7 @@ import { useAuth } from "@/components/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { fetchAuthSession } from "aws-amplify/auth";
+import Link from "next/link";
 
 interface Submission {
   submissionid: string;
@@ -15,7 +16,9 @@ interface Submission {
 export default function Profile() {
   const { user, userAttributes, loading, handleSignOut } = useAuth();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [savedBrands, setSavedBrands] = useState<string[]>([]);
   const [loadingSubmissions, setLoadingSubmissions] = useState(true);
+  const [loadingBrands, setLoadingBrands] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -26,44 +29,85 @@ export default function Profile() {
   }, [loading, user, router]);
 
   useEffect(() => {
-    async function fetchSubmissions() {
+    async function fetchData() {
       if (!user) return;
 
       try {
         const session = await fetchAuthSession();
         const token = session.tokens?.idToken?.toString();
-
         if (!token) {
           setLoadingSubmissions(false);
+          setLoadingBrands(false);
           return;
         }
 
-        const response = await fetch(
-          "https://qrd0rlcn9h.execute-api.us-east-1.amazonaws.com/submissions/my",
-          {
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+        // Fetch submissions
+        try {
+          const subResponse = await fetch(
+            "https://qrd0rlcn9h.execute-api.us-east-1.amazonaws.com/submissions/my",
+            { headers: { "Authorization": `Bearer ${token}` } }
+          );
+          if (subResponse.ok) {
+            const subData = await subResponse.json();
+            setSubmissions(subData.submissions || []);
           }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setSubmissions(data.submissions || []);
-        } else {
+        } catch {
           setError("Failed to load submissions.");
         }
+        setLoadingSubmissions(false);
+
+        // Fetch saved brands
+        try {
+          const brandResponse = await fetch(
+            "https://qrd0rlcn9h.execute-api.us-east-1.amazonaws.com/brands/saved",
+            { headers: { "Authorization": `Bearer ${token}` } }
+          );
+          if (brandResponse.ok) {
+            const brandData = await brandResponse.json();
+            setSavedBrands(brandData.savedBrands || []);
+          }
+        } catch {
+          console.error("Failed to load saved brands.");
+        }
+        setLoadingBrands(false);
+
       } catch {
         setError("Failed to connect to the server.");
+        setLoadingSubmissions(false);
+        setLoadingBrands(false);
       }
-      setLoadingSubmissions(false);
     }
 
     if (user) {
-      fetchSubmissions();
+      fetchData();
     }
   }, [user]);
+
+  async function removeBrand(brandName: string) {
+    try {
+      const session = await fetchAuthSession();
+      const token = session.tokens?.idToken?.toString();
+      if (!token) return;
+
+      const response = await fetch(
+        "https://qrd0rlcn9h.execute-api.us-east-1.amazonaws.com/brands/saved",
+        {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ brandName }),
+        }
+      );
+
+      if (response.ok) {
+        setSavedBrands(prev => prev.filter(b => b !== brandName));
+      }
+    } catch {
+      console.error("Failed to remove brand");
+    }
+  }
 
   if (loading) {
     return <div className="text-center mt-20 font-display text-lg text-brand-text/40">Loading...</div>;
@@ -143,12 +187,9 @@ export default function Profile() {
           ) : submissions.length === 0 ? (
             <div className="bg-brand-cream/50 rounded-xl p-8 text-center">
               <p className="text-brand-text/40 mb-4">You haven&apos;t submitted any ideas yet.</p>
-              <a
-                href="/submit"
-                className="inline-flex items-center gap-2 text-accent-green font-semibold text-sm hover:underline"
-              >
+              <Link href="/submit" className="inline-flex items-center gap-2 text-accent-green font-semibold text-sm hover:underline">
                 Submit your first idea →
-              </a>
+              </Link>
             </div>
           ) : (
             <div className="space-y-4">
@@ -167,13 +208,9 @@ export default function Profile() {
                     {sub.idea || "No description provided."}
                   </p>
                   {sub.eventDate && (
-                    <p className="text-xs text-brand-text/40 mt-2">
-                      Event date: {sub.eventDate}
-                    </p>
+                    <p className="text-xs text-brand-text/40 mt-2">Event date: {sub.eventDate}</p>
                   )}
-                  <p className="text-xs text-brand-text/20 mt-2 font-mono">
-                    ID: {sub.submissionid}
-                  </p>
+                  <p className="text-xs text-brand-text/20 mt-2 font-mono">ID: {sub.submissionid}</p>
                 </div>
               ))}
             </div>
@@ -182,10 +219,49 @@ export default function Profile() {
 
         {/* Saved Brands */}
         <div className="modern-card p-8 animate-fade-up delay-400">
-          <h3 className="font-display text-xl font-bold text-brand-brown mb-4">Saved Brands</h3>
-          <div className="bg-brand-cream/50 rounded-xl p-6 text-center">
-            <p className="text-sm text-brand-text/40">Your favorite sustainable brands will appear here.</p>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="font-display text-xl font-bold text-brand-brown">Saved Brands</h3>
+            {savedBrands.length > 0 && (
+              <span className="text-xs font-medium bg-accent-green/10 text-accent-green px-3 py-1 rounded-full">
+                {savedBrands.length} saved
+              </span>
+            )}
           </div>
+
+          {loadingBrands ? (
+            <div className="bg-brand-cream/50 rounded-xl p-6 text-center">
+              <p className="text-sm text-brand-text/40">Loading your saved brands...</p>
+            </div>
+          ) : savedBrands.length === 0 ? (
+            <div className="bg-brand-cream/50 rounded-xl p-8 text-center">
+              <p className="text-brand-text/40 mb-4">You haven&apos;t saved any brands yet.</p>
+              <Link href="/brands" className="inline-flex items-center gap-2 text-accent-green font-semibold text-sm hover:underline">
+                Browse sustainable brands →
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {savedBrands.map((brandName) => (
+                <div
+                  key={brandName}
+                  className="flex justify-between items-center bg-brand-cream/30 rounded-xl p-4 border border-brand-brown/5"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#4a7c59"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <span className="font-semibold text-sm text-brand-darkest">{brandName}</span>
+                  </div>
+                  <button
+                    onClick={() => removeBrand(brandName)}
+                    className="text-xs text-brand-text/30 hover:text-red-500 transition-colors px-2 py-1"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Sign Out */}
