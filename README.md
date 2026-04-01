@@ -325,12 +325,10 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - [x] Legal disclaimers — trademark notices, inspired by section, educational purpose
 
 ### Upcoming
-- [ ] Clothing swap marketplace (list items, browse, request swaps)
 - [ ] Custom domain registration
 - [ ] SES email confirmations for submissions
 - [ ] OpenSearch for full-text search across brands and events
 - [ ] Analytics pipeline (Kinesis + S3 + Athena)
-- [ ] Mobile app (React Native sharing the same API)
 
 ---
 
