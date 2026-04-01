@@ -123,15 +123,20 @@ npm run dev
 
 ---
 
-## Legal
-
-Educational, non-commercial platform. Not affiliated with any featured brands. Inspired by Elizabeth L. Cline's book. All trademarks belong to their respective owners. [Full disclaimers on site](https://public.d27864khk00keb.amplifyapp.com/).
+## Legal Disclaimers
+ 
+**Educational Purpose:** The Conscious Closet is a non-commercial, educational platform created to promote awareness of sustainable fashion. We do not sell products or services.
+ 
+**Inspired By:** This platform was inspired by Elizabeth L. Cline's book *The Conscious Closet*. We are not affiliated with or endorsed by the author or publisher.
+ 
+**Trademark Notice:** All brand names, logos, and trademarks featured on this site belong to their respective owners. The Conscious Closet is not affiliated with, sponsored by, or endorsed by any of the brands listed. Brands are featured solely for informational and educational purposes.
+ 
+**Image Usage:** Images are used for educational, non-commercial purposes. If you are a rights holder and would like content updated or removed, please contact us through the submission form.
 
 ---
 
 ## Team
 
 **Holly Needham** — Founder & Creative Director · UNC Greensboro
-**Jonathan Lutabingwa** — Lead Developer · UNC Charlotte
 
-Built for ITIS 3135 · © 2025 Lutabingwa Group
+**Jonathan Lutabingwa** — Lead Developer · UNC Charlotte
