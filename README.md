@@ -1,22 +1,36 @@
 # 🌿 The Conscious Closet
 
-**Empowering mindful fashion choices through education, community, and action.**
+## 🚨 The Problem
 
-A full-stack sustainable fashion platform built with Next.js and AWS serverless architecture. The Conscious Closet educates users about eco-friendly fashion, connects them with sustainable brands, and provides tools for community engagement — including event discovery, idea submissions, brand saving, and a growing network of conscious consumers.
+The fashion industry is one of the largest polluters on the planet. It produces **92 million tons** of textile waste annually, consumes **2,700 liters of water** to make a single cotton shirt, and accounts for **10% of global carbon emissions** — more than international flights and maritime shipping combined. Despite growing awareness, most consumers don't know where to start when it comes to making sustainable choices. The information is scattered, the alternatives are hard to find, and fast fashion makes it too easy to look away.
+
+Meanwhile, students and young adults — the generation most vocal about climate change — lack a centralized platform that educates them about sustainable fashion, connects them with ethical brands, and gives them tools to actually take action in their daily lives.
+
+## 💡 The Solution
+
+**The Conscious Closet** is a full-stack educational platform that bridges the gap between awareness and action in sustainable fashion. Instead of just telling people that fast fashion is harmful, we give them a place to learn *why* it matters, discover *who* is doing it right, and take *concrete steps* toward a more mindful wardrobe.
+
+The platform provides:
+- **Education** — comprehensive information about sustainable fabrics, the lifecycle of fashion, and the real cost of fast fashion
+- **Brand discovery** — a curated, searchable directory of 20 verified sustainable brands across categories like outdoor, luxury, footwear, and essentials
+- **Community engagement** — event listings, idea submissions, and tools for users to share their sustainability journey
+- **Personalization** — user accounts with saved brands, submission history, and profile dashboards
+- **Accessibility** — a public version anyone can browse without creating an account, plus a full-featured platform for engaged users
+
+Built on AWS serverless infrastructure, the platform costs under $15/month to operate and can scale from 50 users to 50,000 without changing a single line of code.
 
 🔗 **Live Site (Public):** [public.d27864khk00keb.amplifyapp.com](https://public.d27864khk00keb.amplifyapp.com/) — Browse freely, no account needed
-
 🔗 **Live Site (Full Platform):** Available on request — [Connect on LinkedIn](https://linkedin.com/in/YOUR_PROFILE) for access to user accounts, submissions, and the complete platform
 
 ---
 
 ## 📖 Origin Story
 
-This project started as a class assignment for **ITIS 3135 (Web-Based Application Design and Development)** at UNC Charlotte. The original version was a simple static HTML/CSS/JS site hosted on GitHub Pages, built to promote sustainable fashion awareness for our client, Holly Needham, at UNC Greensboro.
+This project started as a class assignment for **ITIS 3135 (Web-Based Application Design and Development)** at UNC Charlotte. The original version was a simple static HTML/CSS/JS site hosted on GitHub Pages, built to promote sustainable fashion awareness for our client Holly Needham at UNC Greensboro.
 
 **🔗 Original class project:** [webpages.charlotte.edu/jlutabin/assets/itis3135/project/](https://webpages.charlotte.edu/jlutabin/assets/itis3135/project/)
 
-What started as a 10-page static site with hardcoded content and no backend has evolved into a full-stack cloud application with user authentication, a serverless API, a real database, and a modern React frontend — deployed on AWS infrastructure that can scale to thousands of users.
+Recognizing the potential to turn a class project into something that could genuinely help people make better fashion choices, we migrated the entire application to AWS and rebuilt it from the ground up. What started as a 10-page static site with hardcoded content and no backend has evolved into a full-stack cloud application with user authentication, a serverless API, a real database, and a modern React frontend — deployed on infrastructure that can scale to thousands of users.
 
 ### Then vs Now
 
