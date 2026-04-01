@@ -41,9 +41,9 @@ Inspired by Elizabeth L. Cline's book [*The Conscious Closet*](https://www.eliza
 
 ## Features
 
-**Platform** — 9 pages, 20 searchable sustainable brands with tag filtering, events calendar, rotating quotes, modern UI with Playfair Display + DM Sans typography and entrance animations
+**Platform** — 9 pages, 20 searchable sustainable brands with tag filtering, events calendar, rotating quotes, modern UI with Playfair Display + DM Sans typography, and entrance animations
 
-**User Accounts** — Email signup with verification, login, password reset, profile dashboard with submission history and saved brands
+**User Accounts** — Email signup with verification, login, password reset, profile dashboard with submission history, and saved brands
 
 **API** — 6 serverless endpoints handling submissions, brand saving, and user data
 
@@ -66,10 +66,32 @@ Inspired by Elizabeth L. Cline's book [*The Conscious Closet*](https://www.eliza
 ## Architecture
 
 ```
-User → Amplify (Next.js) ← GitHub (auto-deploy)
-User → API Gateway → Cognito (JWT verify) → Lambda → DynamoDB
-                                              └→ SNS (notifications)
-S3 + CloudFront (backup static site)
+┌─────────────┐
+│   Browser    │
+│   (User)     │
+└──────┬───────┘
+       │
+   ┌───┴────────────────────────┐
+   │              │             │
+   ▼              ▼             ▼
+┌────────┐  ┌──────────┐  ┌─────────┐
+│Amplify │  │   API    │  │Cognito  │
+│Next.js │  │ Gateway  │  │  Auth   │
+│CI/CD   │  │  HTTP    │  │  JWT    │
+└───┬────┘  └────┬─────┘  └────┬────┘
+    │            │              │
+    ▼            ▼              │
+┌────────┐  ┌──────────┐       │
+│GitHub  │  │ Lambda   │◄──────┘
+│  Repo  │  │ Node.js  │
+└────────┘  └────┬─────┘
+                 │
+          ┌──────┴──────┐
+          ▼             ▼
+    ┌──────────┐  ┌─────────┐
+    │DynamoDB  │  │  SNS    │
+    │ Tables   │  │ Alerts  │
+    └──────────┘  └─────────┘
 ```
 
 ---
