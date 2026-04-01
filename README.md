@@ -20,6 +20,7 @@ The platform provides:
 Built on AWS serverless infrastructure, the platform costs under $15/month to operate and can scale from 50 users to 50,000 without changing a single line of code.
 
 🔗 **Live Site (Public):** [public.d27864khk00keb.amplifyapp.com](https://public.d27864khk00keb.amplifyapp.com/) — Browse freely, no account needed
+
 🔗 **Live Site (Full Platform):** Available on request — [Connect on LinkedIn](https://linkedin.com/in/YOUR_PROFILE) for access to user accounts, submissions, and the complete platform
 
 ---
