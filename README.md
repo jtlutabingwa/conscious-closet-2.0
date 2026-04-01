@@ -33,8 +33,11 @@ Inspired by Elizabeth L. Cline's book [*The Conscious Closet*](https://www.eliza
 ## Tech Stack
 
 **Frontend:** Next.js 15 · React 19 · TypeScript · Tailwind CSS v4
+
 **Backend:** AWS Lambda (Node.js 22.x) · API Gateway · DynamoDB
+
 **Auth:** AWS Cognito · JWT tokens
+
 **Infra:** Amplify · S3 · CloudFront · SNS · Route 53
 
 ---
