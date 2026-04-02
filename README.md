@@ -24,7 +24,7 @@ Started as a class project for **ITIS 3135** at UNC Charlotte → [Original stat
 | No database | DynamoDB (2 tables + GSI) |
 | Manual deploys | Git push → auto-deploy |
 
-Inspired by Elizabeth L. Cline's book [*The Conscious Closet*](https://www.elizabethlcline.com/the-conscious-closet).
+Inspired by Elizabeth L. Cline's book [*The Conscious Closet*](https://www.elizabethclinebooks.com/the-conscious-closet).
 
 ---
 
