@@ -8,7 +8,7 @@ The fashion industry produces **92 million tons** of textile waste annually, use
 
 **The Conscious Closet** is an educational platform that helps people learn about sustainable fashion, discover ethical brands, and take action. Built on AWS serverless infrastructure, it scales from 50 to 50,000 users at under $15/month.
 
-🔗 **Live Site (Full Platform)** — [The Conscious Closet](https://main.d3nx8ds6fg3d06.amplifyapp.com/)
+🔗 **Live Site (Full Platform)** — Available on Request
 
 ---
 
@@ -163,3 +163,35 @@ npm run dev
 **Holly Needham** — Founder & Creative Director · UNC Greensboro
 
 **Jonathan Lutabingwa** — Lead Developer · UNC Charlotte
+
+---
+
+## Screenshots
+
+### Home
+![Home](demo/01-home.png)
+
+### Submit an Idea
+![Submit](demo/02-submit.png)
+
+### Events
+![Events](demo/03-events.png)
+
+### Sustainable Brands
+![Brands](demo/04-brands.png)
+
+### Sustainability Info
+![Info](demo/05-info.png)
+
+### Why Sustainable Fashion?
+![Why](demo/06-why.png)
+
+### Take Action
+![Take Action](demo/07-take-action.png)
+
+### Log In
+![Login](demo/08-login.png)
+
+### Sign Up
+![Sign Up](demo/09-signup.png)
+
