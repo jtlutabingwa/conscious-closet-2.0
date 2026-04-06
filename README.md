@@ -195,3 +195,17 @@ npm run dev
 ### Sign Up
 ![Sign Up](demo/09-signup.png)
 
+### AWS Infrastructure
+
+### DynamoDB — Submissions Table
+![DynamoDB Submissions](demo/10-dynamodb-submissions.png)
+
+### DynamoDB — Users Table
+![DynamoDB Users](demo/11-dynamodb-users.png)
+
+### API Gateway — Routes with JWT Auth
+![API Gateway Routes](demo/12-api-gateway-routes.png)
+
+### DynamoDB — User Record Detail
+![DynamoDB User Detail](demo/13-dynamodb-users-detail.png)
+
