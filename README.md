@@ -1,51 +1,70 @@
 # 🌿 The Conscious Closet
 
-**Empowering mindful fashion choices through education, community, and action.**
+## The Problem
 
-A full-stack sustainable fashion platform built with Next.js and AWS serverless architecture. The Conscious Closet educates users about eco-friendly fashion, connects them with sustainable brands, and provides tools for community engagement — including event discovery, idea submissions, brand saving, and a growing network of conscious consumers.
+The fashion industry produces **92 million tons** of textile waste annually, uses **2,700 liters of water** for a single cotton shirt, and generates **10% of global carbon emissions**. Most people want to do better but don't know where to start.
 
-🔗 **Live Site (Public):** [public.d27864khk00keb.amplifyapp.com](https://public.d27864khk00keb.amplifyapp.com/) — Browse freely, no account needed
+## The Solution
 
-🔗 **Live Site (Full Platform):** Available on request — [Connect on LinkedIn](https://linkedin.com/in/YOUR_PROFILE) for access to user accounts, submissions, and the complete platform
+**The Conscious Closet** is an educational platform that helps people learn about sustainable fashion, discover ethical brands, and take action. Built on AWS serverless infrastructure, it scales from 50 to 50,000 users at under $15/month.
 
----
-
-## 📖 Origin Story
-
-This project started as a class assignment for **ITIS 3135 (Web-Based Application Design and Development)** at UNC Charlotte. The original version was a simple static HTML/CSS/JS site hosted on GitHub Pages, built to promote sustainable fashion awareness for our client, Holly Needham, at UNC Greensboro.
-
-**🔗 Original class project:** [webpages.charlotte.edu/jlutabin/assets/itis3135/project/](https://webpages.charlotte.edu/jlutabin/assets/itis3135/project/)
-
-What started as a 10-page static site with hardcoded content and no backend has evolved into a full-stack cloud application with user authentication, a serverless API, a real database, and a modern React frontend — deployed on AWS infrastructure that can scale to thousands of users.
-
-### Then vs Now
-
-| Feature | Original (Class Project) | Current (AWS Platform) |
-|---------|------------------------|----------------------|
-| **Hosting** | GitHub Pages (static) | AWS Amplify + S3 + CloudFront |
-| **Frontend** | Raw HTML/CSS/JS with `data-include` for components | Next.js 15 + React 19 + TypeScript + Tailwind CSS v4 |
-| **Backend** | None — forms showed an `alert()` and discarded data | API Gateway + Lambda + DynamoDB |
-| **Database** | None — all content hardcoded in HTML | DynamoDB (Submissions + Users tables) |
-| **Authentication** | None | AWS Cognito (email signup, verification, JWT tokens) |
-| **Deployment** | Manual file upload | Git push → auto-deploy via Amplify |
-| **Design** | Basic CSS with centered layout | Custom design system with Playfair Display + DM Sans, animations, card layouts, grain texture |
-| **Search** | Basic client-side `input` filtering | Maintained + improved with tag-based filtering |
-| **Images** | Static `<img>` tags | Next.js `<Image>` with optimization and lazy loading |
-| **Security** | None | JWT-secured API, input sanitization, rate limiting, IAM roles, CORS, billing alerts |
-| **Notifications** | None | SNS email alerts for submissions and signups |
-| **User Features** | None | Save brands, view submissions, password reset |
-| **Scalability** | Single static host | Serverless — handles 50 to 50,000 users without code changes |
-| **Cost** | Free (GitHub Pages) | ~$5-15/mo (serverless, scales to zero) |
+🔗 **Live Site (Full Platform)** — Available on Request
 
 ---
 
-## 📚 Inspired By
+## Origin
 
-This platform was inspired by Elizabeth L. Cline's book *The Conscious Closet: The Revolutionary Guide to Looking Good While Doing Good*, which opened our eyes to the true impact of fast fashion. We encourage everyone to [read the book](https://www.elizabethlcline.com/the-conscious-closet).
+Started as a class project for **ITIS 3135** at UNC Charlotte → [Original static site](https://webpages.charlotte.edu/jlutabin/assets/itis3135/project/). Migrated to a full-stack AWS cloud application.
+
+| Before | After |
+|--------|-------|
+| Static HTML on GitHub Pages | Next.js on AWS Amplify |
+| No backend — forms showed `alert()` | API Gateway + Lambda + DynamoDB |
+| No auth | Cognito with JWT tokens |
+| No database | DynamoDB (2 tables + GSI) |
+| Manual deploys | Git push → auto-deploy |
+
+Inspired by Elizabeth L. Cline's book [*The Conscious Closet*](https://www.elizabethclinebooks.com/the-conscious-closet).
 
 ---
 
-## 🏗️ Architecture
+## Tech Stack
+
+**Frontend:** Next.js 15 · React 19 · TypeScript · Tailwind CSS v4
+
+**Backend:** AWS Lambda (Node.js 22.x) · API Gateway · DynamoDB
+
+**Auth:** AWS Cognito · JWT tokens
+
+**Infra:** Amplify · S3 · CloudFront · SNS · Route 53
+
+---
+
+## Features
+
+**Platform** — 9 pages, 20 searchable sustainable brands with tag filtering, events calendar, rotating quotes, modern UI with Playfair Display + DM Sans typography, and entrance animations
+
+**User Accounts** — Email signup with verification, login, password reset, profile dashboard with submission history, and saved brands
+
+**API** — 6 serverless endpoints handling submissions, brand saving, and user data
+
+**Notifications** — SNS email alerts for new submissions and signups
+
+---
+
+## Security
+
+**Auth** — Cognito-managed password hashing, SRP protocol (passwords never sent in plain text), email verification required, JWT-secured API routes
+
+**Sanitization** — All inputs sanitized client-side and server-side: HTML tags stripped, dangerous characters removed, field length limits enforced (name: 100, email: 254, idea: 2000)
+
+**Rate Limiting** — 5 submissions/day per user, 5 login attempts before lockout, 3 verification resends per session, API Gateway throttling at 10 req/sec, max 50 saved brands
+
+**Infrastructure** — Private S3 bucket with OAC, IAM least privilege, MFA on root, HTTPS everywhere, billing alerts at $10 and $25
+
+---
+
+## Architecture
 
 ```
 ┌─────────────┐
@@ -78,288 +97,101 @@ This platform was inspired by Elizabeth L. Cline's book *The Conscious Closet: T
 
 ---
 
-## ✨ Features
-
-### Core Platform
-- **9 fully designed pages** — Home, Info, Why Sustainable, Brands, Events, Take Action, Submit, Founder, Profile
-- **Modern UI** — Playfair Display + DM Sans typography, staggered entrance animations, card-based layouts, subtle grain texture overlay
-- **Responsive design** — Mobile-friendly with animated hamburger navigation and sticky header with scroll effect
-- **20 sustainable brands** — Searchable, filterable directory with tag-based categories (Outdoor, Essentials, Luxury, Footwear, Activewear, Denim, Fair Trade, etc.)
-- **Events calendar** — Upcoming sustainability events with location indicators and resource links
-- **Rotating quotes** — Inspirational sustainability quotes cycle automatically on the Take Action page
-
-### User Accounts & Personalization
-- **Email signup with verification** — Cognito-powered registration with 6-digit email verification codes
-- **Login with session management** — JWT tokens stored client-side, auto-refresh, persistent sessions
-- **Password reset** — Two-step forgot password flow with code verification and full password validation
-- **User profile dashboard** — View account details, submission history, and saved brands in one place
-- **Save brands** — Heart button on brand cards to save/unsave favorites, synced to DynamoDB Users table
-- **View submissions** — Profile page displays all past submissions with color-coded status badges (pending/approved/featured) and timestamps
-- **Auto-filled forms** — Logged-in users get name and email pre-populated on the submission form
-
-### Backend & API
-- **Serverless API** — API Gateway (HTTP API) with multiple Lambda functions
-- **6 API endpoints:**
-
-| Method | Route | Auth | Lambda | Description |
-|--------|-------|------|--------|-------------|
-| POST | /submissions | JWT | submitIdea | Submit a sustainable fashion idea |
-| GET | /submissions/my | JWT | getSubmissions | Fetch user's submission history |
-| GET | /brands/saved | JWT | getSavedBrands | Get user's saved brands list |
-| POST | /brands/saved | JWT | savedBrands | Save a brand to favorites |
-| DELETE | /brands/saved | JWT | savedBrands | Remove a brand from favorites |
-| OPTIONS | /* | None | — | CORS preflight handling |
-
-- **DynamoDB** — Two tables (Submissions with GSI, Users) storing user-generated content
-- **SNS notifications** — Email alerts sent to admin when a new submission is received or a new user signs up
-- **Cognito Post Confirmation trigger** — Lambda fires on every new user verification to notify admin
-
-### DevOps & Infrastructure
-- **AWS Amplify** — Auto-deploys from GitHub on every push to `main`
-- **Multi-branch deployment** — `main` branch (full app with auth) and `public` branch (educational only, no auth)
-- **S3 + CloudFront** — Static asset hosting with global CDN and SSL (backup site)
-- **Billing alerts** — Budget monitors at $10 and $25 thresholds
-- **IAM security** — Dedicated admin user, MFA on root account
-- **CLI deployment** — Backup `aws s3 sync` pipeline for static assets
-
----
-
-## 🔒 Security
-
-### Authentication Security
-- **AWS Cognito** — Managed authentication handling password hashing, brute force protection, and token management
-- **JWT token verification** — API Gateway validates tokens against Cognito's public keys before requests reach Lambda
-- **Secure Remote Password (SRP)** — Passwords never travel over the network in plain text during login
-- **Email verification required** — Users must verify their email before accounts become active
-- **Password policy** — Minimum 8 characters with uppercase, lowercase, and number requirements enforced on both client and server
-
-### Input Sanitization
-All user inputs are sanitized on both the client and server side to prevent injection attacks.
-
-- **Server-side (Lambda):** All functions strip HTML tags (`<script>`, `<img>`, etc.), remove dangerous characters (`< > ' " ; \``), and enforce maximum field lengths (name: 100, email: 254, idea: 2000, date: 10)
-- **Client-side (React):** All forms run inputs through a `sanitize()` function before sending to the API
-- **Email validation** — Regex validation on both client and server to reject malformed addresses
-- **Date format validation** — Event dates checked against MM/DD/YYYY pattern
-- **Name validation** — Signup only allows letters, spaces, hyphens, and apostrophes
-- **Verification code filtering** — Only digits accepted, automatically stripped to exactly 6 characters
-- **Search input sanitization** — Brand search fields strip HTML and dangerous characters on every keystroke
-- **Brand name sanitization** — Save brand requests sanitize the brand name server-side before writing to DynamoDB
-
-### Rate Limiting
-Multiple layers of rate limiting prevent abuse at both the application and infrastructure level.
-
-- **Submission rate limiting** — Maximum 5 submissions per user per 24-hour period, enforced server-side via DynamoDB GSI query checking `createdAt` timestamps
-- **Login attempt limiting** — Client-side lockout after 5 failed login attempts per session
-- **Verification code resend limiting** — Maximum 3 resend attempts per session
-- **API Gateway throttling** — 10 requests per second with burst of 20 on the submission endpoint
-- **Saved brands limit** — Maximum 50 saved brands per user to prevent database bloat
-
-### Infrastructure Security
-- **S3 bucket private** — Origin Access Control ensures only CloudFront can read from the bucket; no public access
-- **IAM roles** — Lambda execution roles have only the permissions they need (DynamoDB, SNS)
-- **MFA on root account** — Multi-factor authentication on the AWS root user
-- **Separate IAM admin** — Day-to-day work uses an IAM user, never the root account
-- **Billing alerts** — Budget monitors at $10 and $25 prevent unexpected charges
-- **CORS configuration** — API Gateway configured with specific allowed origins, headers, and methods
-- **HTTPS everywhere** — SSL/TLS on all endpoints via CloudFront, Amplify, and API Gateway
-
-### Error Handling
-- **Friendly error messages** — Login errors say "Incorrect email or password" instead of revealing whether an email exists
-- **Graceful failures** — SNS notification failures don't block user submissions; the submission still saves
-- **JSON parse protection** — Malformed request bodies are caught and return a 400 error before any processing
-- **CloudWatch logging** — All Lambda errors logged for debugging without exposing internal details to users
-- **Rate limit responses** — 429 status codes with clear messages telling users when they can try again
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | Next.js 15, React 19, TypeScript, Tailwind CSS v4 |
-| **Fonts** | Playfair Display (display), DM Sans (body) via Google Fonts |
-| **Auth** | AWS Cognito, aws-amplify SDK |
-| **API** | AWS API Gateway (HTTP API) with JWT authorizer |
-| **Backend** | AWS Lambda (Node.js 22.x) — 5 functions |
-| **Database** | AWS DynamoDB (on-demand) — 2 tables + 1 GSI |
-| **Notifications** | AWS SNS (email alerts to admin) |
-| **Hosting** | AWS Amplify (frontend), S3 + CloudFront (backup) |
-| **CI/CD** | GitHub → Amplify auto-deploy on push (multi-branch) |
-| **DNS/SSL** | CloudFront (SSL), Route 53 (pending custom domain) |
-
----
-
-## 📁 Project Structure
-
-```
-conscious-closet/
-├── app/
-│   ├── globals.css             # Design system — colors, animations, components
-│   ├── layout.tsx              # Root layout with header, footer, auth providers
-│   ├── favicon.ico             # Custom leaf favicon
-│   ├── page.tsx                # Home — hero, stats, how it works, testimonials
-│   ├── brands/page.tsx         # 20 brands with save hearts and tag filtering
-│   ├── events/page.tsx         # Events calendar with resource links
-│   ├── founder/page.tsx        # Holly Needham bio and quote
-│   ├── info/page.tsx           # Sustainability education + inspired by section
-│   ├── login/page.tsx          # Login with forgot password link
-│   ├── profile/page.tsx        # Dashboard — submissions + saved brands
-│   ├── reset-password/page.tsx # Two-step password reset flow
-│   ├── signup/page.tsx         # Registration with full validation
-│   ├── submit/page.tsx         # Idea submission with rate limit handling
-│   ├── take-action/page.tsx    # Action items, lifestyle tips, rotating quotes
-│   ├── verify/page.tsx         # Email verification with resend limiting
-│   └── why/page.tsx            # Fast vs sustainable fashion comparison
-├── components/
-│   ├── AuthContext.tsx          # Global auth state management (Cognito)
-│   ├── ConfigureAmplify.tsx     # AWS Amplify SDK configuration
-│   ├── Footer.tsx              # Footer with nav links and legal disclaimer
-│   └── Header.tsx              # Sticky header with scroll effect and auth UI
-├── public/
-│   └── images/
-│       └── brands/             # Brand logos and images (20 brands)
-├── package.json
-├── tsconfig.json
-└── next.config.ts
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+
-- Git
-
-### Local Development
+## Getting Started
 
 ```bash
-# Clone the repository
 git clone https://github.com/jtlutabingwa/concious-closet-2.0.git
 cd concious-closet-2.0
-
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-> **Note:** The frontend runs locally at localhost:3000 with full navigation and page rendering. Form submissions, user authentication, brand saving, and submission history require the AWS backend services (API Gateway, Lambda, DynamoDB, Cognito) which are configured separately and not included in this repo.
-
-### AWS Services
-
-| Service | Region | Resource |
-|---------|--------|----------|
-| Cognito User Pool | us-east-2 | `us-east-2_uz7rgMTVd` |
-| API Gateway | us-east-1 | `qrd0rlcn9h` |
-| Lambda Functions | us-east-2 | `submitIdea`, `getSubmissions`, `savedBrands`, `getSavedBrands`, `newUserNotification` |
-| DynamoDB | us-east-2 | `Submissions` (+ GSI), `Users` |
-| SNS | us-east-2 | `submission-creation` |
-| Amplify | us-east-1 | `d27864khk00keb` |
-| S3 | us-east-2 | `concious-closet-frontend` |
-| CloudFront | Global | `E3F081P8GFKHG8` |
+> **Note:** Frontend runs locally with full navigation. Submissions, auth, and brand saving require the AWS backend which is configured separately.
 
 ---
 
-## 📊 Database Schema
+## Database
 
-### Submissions Table
-| Attribute | Type | Role |
-|-----------|------|------|
-| submissionid | String (UUID) | Partition Key |
-| userID | String | GSI Partition Key — Cognito sub or email |
-| name | String | Submitter name (sanitized, max 100) |
-| email | String | Submitter email (validated, max 254) |
-| idea | String | Submission content (sanitized, max 2000) |
-| eventDate | String | Optional event date (MM/DD/YYYY validated) |
-| createdAt | String (ISO 8601) | GSI Sort Key — timestamp |
-| status | String | pending / approved / featured |
+**Submissions** — `submissionid` (PK), `userID` (GSI), `name`, `email`, `idea`, `eventDate`, `createdAt` (GSI sort), `status`
 
-**Global Secondary Index:** `userID-createdAt-index` — enables querying submissions by user and 24-hour rate limiting checks.
-
-### Users Table
-| Attribute | Type | Role |
-|-----------|------|------|
-| userID | String (Cognito sub) | Partition Key |
-| displayName | String | Public profile name |
-| email | String | User email |
-| campus | String | UNCG, Charlotte, etc. |
-| joinedAt | String (ISO 8601) | Registration date |
-| sustainabilityScore | Number | Gamification points |
-| savedBrands | List of Strings | Bookmarked brand names (max 50) |
-| completedActions | List of Strings | Tracked sustainability actions |
+**Users** — `userID` (PK, Cognito sub), `displayName`, `email`, `campus`, `joinedAt`, `sustainabilityScore`, `savedBrands` (max 50), `completedActions`
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
-### Completed
-- [x] AWS Foundation (S3, CloudFront, IAM, billing alerts, deploy pipeline)
-- [x] Backend API (DynamoDB, Lambda, API Gateway, working submissions)
-- [x] Next.js frontend migration with Amplify auto-deployment
-- [x] User authentication (Cognito signup, login, verify, JWT-secured API)
-- [x] Full visual redesign with custom typography, animations, and modern layout
-- [x] Security hardening — input sanitization, rate limiting, API throttling
-- [x] SNS notifications — email alerts for submissions and new user signups
-- [x] Password reset — forgot password flow with code verification
-- [x] Save brands — heart-based save system with profile display
-- [x] Submission history — view past submissions on profile with status badges
-- [x] Multi-branch deployment — public (no auth) and main (full app) branches
-- [x] Legal disclaimers — trademark notices, inspired by section, educational purpose
-
-### Upcoming
-- [ ] Clothing swap marketplace (list items, browse, request swaps)
-- [ ] Custom domain registration
-- [ ] SES email confirmations for submissions
-- [ ] OpenSearch for full-text search across brands and events
-- [ ] Analytics pipeline (Kinesis + S3 + Athena)
-- [ ] Mobile app (React Native sharing the same API)
+- [x] AWS cloud migration (S3, CloudFront, Amplify)
+- [x] Serverless API (Lambda, API Gateway, DynamoDB)
+- [x] User auth (Cognito signup, login, verify, password reset)
+- [x] Full UI redesign with animations and custom typography
+- [x] Security hardening (sanitization, rate limiting, throttling)
+- [x] SNS notifications for submissions and signups
+- [x] Save brands and view submission history
+- [x] Multi-branch deployment (public + authenticated)
+- [x] Legal disclaimers and trademark notices
+- [ ] Custom domain
+- [ ] Full-text search (OpenSearch)
+- [ ] Analytics pipeline
 
 ---
 
-## 💰 Cost Estimate
+## Cost
 
-All services are serverless and scale to zero when idle.
-
-| User Scale | Monthly Cost | Notes |
-|-----------|-------------|-------|
-| 50 users | ~$5 | Mostly free tier |
-| 500 users | ~$16 | Past free tier on some services |
-| 5,000 users | ~$32 | Full serverless pricing |
-| 50,000 users | ~$134 | Still cheaper than a single EC2 + RDS setup |
+| Scale | Monthly |
+|-------|---------|
+| 50 users | ~$5 |
+| 500 users | ~$16 |
+| 5,000 users | ~$32 |
+| 50,000 users | ~$134 |
 
 ---
 
-## ⚖️ Legal Disclaimers
-
+## Legal Disclaimers
+ 
 **Educational Purpose:** The Conscious Closet is a non-commercial, educational platform created to promote awareness of sustainable fashion. We do not sell products or services.
-
+ 
 **Inspired By:** This platform was inspired by Elizabeth L. Cline's book *The Conscious Closet*. We are not affiliated with or endorsed by the author or publisher.
-
+ 
 **Trademark Notice:** All brand names, logos, and trademarks featured on this site belong to their respective owners. The Conscious Closet is not affiliated with, sponsored by, or endorsed by any of the brands listed. Brands are featured solely for informational and educational purposes.
-
+ 
 **Image Usage:** Images are used for educational, non-commercial purposes. If you are a rights holder and would like content updated or removed, please contact us through the submission form.
 
 ---
 
-## 👥 Team
+## Team
 
-| Role | Name | Institution |
-|------|------|------------|
-| **Founder & Creative Director** | Holly Needham | UNC Greensboro |
-| **Lead Developer** | Jonathan Lutabingwa | UNC Charlotte |
+**Holly Needham** — Founder & Creative Director · UNC Greensboro
 
-### Acknowledgements
-- **ITIS 3135** — Web-Based Application Design and Development (UNC Charlotte) where this project originated
-- **Elizabeth L. Cline** — Author of *The Conscious Closet*, the book that inspired this platform
-- **Fashion Revolution**, **Good On You**, and **Common Objective** for sustainability resources
-- All 20 featured brands for their leadership in sustainable fashion
+**Jonathan Lutabingwa** — Lead Developer · UNC Charlotte
 
 ---
 
-## 📄 License
+## Screenshots
 
-© 2025 The Conscious Closet | Designed & Developed by Lutabingwa Group
+### Home
+![Home](demo/01-home.png)
+
+### Submit an Idea
+![Submit](demo/02-submit.png)
+
+### Events
+![Events](demo/03-events.png)
+
+### Sustainable Brands
+![Brands](demo/04-brands.png)
+
+### Sustainability Info
+![Info](demo/05-info.png)
+
+### Why Sustainable Fashion?
+![Why](demo/06-why.png)
+
+### Take Action
+![Take Action](demo/07-take-action.png)
+
+### Log In
+![Login](demo/08-login.png)
+
+### Sign Up
+![Sign Up](demo/09-signup.png)
+
