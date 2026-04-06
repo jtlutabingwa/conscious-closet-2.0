@@ -205,7 +205,3 @@ npm run dev
 
 ### API Gateway — Routes with JWT Auth
 ![API Gateway Routes](demo/12-api-gateway-routes.png)
-
-### DynamoDB — User Record Detail
-![DynamoDB User Detail](demo/13-dynamodb-users-detail.png)
-
