@@ -168,6 +168,9 @@ npm run dev
 ### Sign Up
 ![Sign Up](demo/09-signup.png)
 
+### Verify Email
+![Verify Email](demo/16-verify-email.png)
+
 ### Profile — Account & Submissions
 ![Profile Top](demo/14-profile-top.png)
 
