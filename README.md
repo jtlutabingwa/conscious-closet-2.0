@@ -8,7 +8,7 @@ The fashion industry produces **92 million tons** of textile waste annually, use
 
 **The Conscious Closet** is an educational platform that helps people learn about sustainable fashion, discover ethical brands, and take action. Built on AWS serverless infrastructure, it scales from 50 to 50,000 users at under $15/month.
 
-🔗 **Live Site (Full Platform)** — Available on Request
+🔗 **Live Site (Full Platform)** — [Web Application](https://main.d3nx8ds6fg3d06.amplifyapp.com/)
 
 ---
 
