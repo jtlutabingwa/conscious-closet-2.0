@@ -168,6 +168,12 @@ npm run dev
 ### Sign Up
 ![Sign Up](demo/09-signup.png)
 
+### Profile — Account & Submissions
+![Profile Top](demo/14-profile-top.png)
+
+### Profile — Saved Brands
+![Profile Saved Brands](demo/15-profile-saved-brands.png)
+
 ### AWS Infrastructure
 
 ### DynamoDB — Submissions Table
