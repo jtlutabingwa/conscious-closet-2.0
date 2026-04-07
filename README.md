@@ -176,14 +176,3 @@ npm run dev
 
 ### Profile — Saved Brands
 ![Profile Saved Brands](demo/15-profile-saved-brands.png)
-
-### AWS Infrastructure
-
-### DynamoDB — Submissions Table
-![DynamoDB Submissions](demo/10-dynamodb-submissions.png)
-
-### DynamoDB — Users Table
-![DynamoDB Users](demo/11-dynamodb-users.png)
-
-### API Gateway — Routes with JWT Auth
-![API Gateway Routes](demo/12-api-gateway-routes.png)
